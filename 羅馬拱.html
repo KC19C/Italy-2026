@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>羅馬拱與交叉拱頂力學強化版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f8f5f0; color: #2d2d2d; font-family: system-ui, -apple-system, sans-serif; }
+        .canvas-container { 
+            position: relative; 
+            width: 100%; 
+            height: 600px; 
+            background: radial-gradient(circle, #ffffff 0%, #e5e7eb 100%);
+            border-radius: 16px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .control-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .control-btn:hover { transform: translateY(-1px); }
+        .active-mode { background-color: #78350f !important; color: white !important; border-color: #78350f !important; }
+        .force-label { pointer-events: none; text-shadow: 0 0 4px white; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+            <div>
+                <h1 class="text-4xl font-extrabold text-amber-900">建築革命：從單拱到交叉拱頂</h1>
+                <p class="text-lg text-amber-800/70 mt-2">視覺化解析羅馬人的空間力學邏輯</p>
+            </div>
+            <div class="flex gap-2 p-1 bg-amber-100 rounded-xl border border-amber-200">
+                <button onclick="setMode('arch')" id="mode-arch" class="control-btn px-6 py-2 rounded-lg font-bold active-mode">單個圓拱</button>
+                <button onclick="setMode('vault')" id="mode-vault" class="control-btn px-6 py-2 rounded-lg font-bold bg-white text-amber-900 border border-amber-200">筒形拱頂</button>
+                <button onclick="setMode('groin')" id="mode-groin" class="control-btn px-6 py-2 rounded-lg font-bold bg-white text-amber-900 border border-amber-200">交叉拱頂</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-3">
+                <div class="canvas-container relative">
+                    <canvas id="mainCanvas"></canvas>
+                    <!-- 浮動力學標籤 -->
+                    <div id="labels" class="absolute inset-0 pointer-events-none"></div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100">
+                    <h3 class="text-xl font-bold text-amber-900 mb-4" id="info-title">單個圓拱 (The Arch)</h3>
+                    <div class="space-y-4 text-sm leading-relaxed text-gray-600" id="info-content">
+                        羅馬拱的基本單元。利用楔形石將垂直重力轉化為沿曲線傳導的壓應力。
+                    </div>
+                </div>
+
+                <div class="bg-amber-900 text-amber-50 p-6 rounded-2xl shadow-lg">
+                    <h4 class="font-bold mb-2 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        力學關鍵
+                    </h4>
+                    <p class="text-xs opacity-90 leading-normal" id="mechanics-tip">
+                        重力由拱頂石向兩側分配，最終由厚重的墩柱吸收橫向推力。
+                    </p>
+                </div>
+                
+                <div class="text-xs text-center text-gray-400">
+                    * 拖曳或移動滑鼠可觀察力流方向
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        const labelsContainer = document.getElementById('labels');
+        let mode = 'arch';
+        let time = 0;
+
+        const info = {
+            arch: {
+                title: "基礎：羅馬圓拱",
+                content: "最純粹的受壓結構。石塊間互擠產生的壓力抵消了重力，但缺點是下方必須有連續的厚牆或墩柱來支撐。",
+                tip: "關鍵在於「楔形」。如果移除拱頂石，整個結構會因失去橫向擠壓力而向中心崩塌。"
+            },
+            vault: {
+                title: "延伸：筒形拱頂",
+                content: "將圓拱沿著一個方向連續延伸。它能覆蓋矩形空間，但兩側的牆壁必須極其厚重（沒有窗戶），否則會被向外的推力推倒。",
+                tip: "就像一長串的拱門，這形成了巨大的結構載重。羅馬人用它建造地窖和大型倉庫。"
+            },
+            groin: {
+                title: "巔峰：交叉拱頂",
+                content: "由兩個筒形拱頂以 90 度交會而成。這是建築史上的天才發明：它將屋頂重量引導至「對角稜線」，最後集中在四個角落的支柱上。",
+                tip: "因為重量被「導流」到四個點，側牆不再需要承重，這讓羅馬人能在牆上開大窗，讓室內採光大幅提升。"
+            }
+        };
+
+        function resize() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function setMode(m) {
+            mode = m;
+            document.querySelectorAll('.control-btn').forEach(b => b.classList.remove('active-mode', 'bg-white'));
+            document.getElementById(`mode-${m}`).classList.add('active-mode');
+            document.getElementById('info-title').innerText = info[m].title;
+            document.getElementById('info-content').innerText = info[m].content;
+            document.getElementById('mechanics-tip').innerText = info[m].tip;
+        }
+
+        function drawStone(x, y, angle, rIn, rOut, color = "#a8a29e") {
+            const step = Math.PI / 14;
+            ctx.beginPath();
+            ctx.arc(x, y, rOut, angle - step/2 + 0.01, angle + step/2 - 0.01);
+            ctx.arc(x, y, rIn, angle + step/2 - 0.01, angle - step/2 + 0.01, true);
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.strokeStyle = "rgba(0,0,0,0.3)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+
+        function drawArch3D(x, y, z, rIn, rOut, alpha = 1) {
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            for(let i=0; i<=12; i++) {
+                const angle = Math.PI + (i/12) * Math.PI;
+                const isKeystone = (i === 6);
+                drawStone(x, y - z, angle, rIn, rOut, isKeystone ? "#d97706" : "#cbd5e1");
+            }
+            ctx.restore();
+        }
+
+        function drawForceArrow(x, y, angle, length, label) {
+            const x2 = x + Math.cos(angle) * length;
+            const y2 = y + Math.sin(angle) * length;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = "#ef4444";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Arrow head
+            const head = 10;
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - head * Math.cos(angle - Math.PI/6), y2 - head * Math.sin(angle - Math.PI/6));
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - head * Math.cos(angle + Math.PI/6), y2 - head * Math.sin(angle + Math.PI/6));
+            ctx.stroke();
+        }
+
+        function animate() {
+            time += 0.02;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2 + 50;
+
+            if (mode === 'arch') {
+                // 單拱視角
+                drawArch3D(cx, cy, 0, 120, 160);
+                drawForceArrow(cx, cy - 160, Math.PI/2 - 0.5, 40);
+                drawForceArrow(cx, cy - 160, Math.PI/2 + 0.5, 40);
+                drawForceArrow(cx - 140, cy, Math.PI/2 + 0.4, 50);
+                drawForceArrow(cx + 140, cy, Math.PI/2 - 0.4, 50);
+                
+                ctx.fillStyle = "#ef4444";
+                ctx.font = "bold 14px sans-serif";
+                ctx.fillText("壓力傳導方向", cx - 40, cy - 180);
+            } 
+            else if (mode === 'vault') {
+                // 筒形拱頂透視
+                for(let i=15; i>=0; i--) {
+                    const z = i * 15;
+                    const shift = i * 8;
+                    const a = i === 0 ? 1 : 0.3;
+                    drawArch3D(cx + shift, cy - shift/2, 0, 100, 130, a);
+                }
+            } 
+            else if (mode === 'groin') {
+                // 強化版交叉拱頂
+                const size = 120;
+                const hover = Math.sin(time) * 5;
+                
+                // 1. 繪製底部支柱
+                ctx.fillStyle = "#94a3b8";
+                const pillars = [[-size, -size/2], [size, -size/2], [size - 100, -size/2 + 50], [-size - 100, -size/2 + 50]];
+                
+                // 2. 繪製交叉拱頂骨架
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = "rgba(120, 53, 15, 0.4)";
+                ctx.strokeRect(cx - size - 50, cy - size, size * 2, size);
+                ctx.setLineDash([]);
+
+                // 3. 繪製兩組相交的拱（透明效果）
+                // 橫向拱
+                ctx.save();
+                ctx.translate(cx, cy + hover);
+                
+                // 繪製交會的稜線 (Groins)
+                ctx.beginPath();
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = "#b45309"; // 稜線用深色標出
+                ctx.moveTo(-size, 0); ctx.lineTo(size, -size);
+                ctx.moveTo(size, 0); ctx.lineTo(-size, -size);
+                ctx.stroke();
+
+                // 填滿拱頂面 (半透明)
+                ctx.beginPath();
+                ctx.fillStyle = "rgba(214, 211, 209, 0.6)";
+                ctx.moveTo(-size, 0);
+                ctx.quadraticCurveTo(0, -size * 1.5, size, 0);
+                ctx.lineTo(size + 40, -40);
+                ctx.quadraticCurveTo(40, -size * 1.5 - 40, -size + 40, -40);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.fillStyle = "rgba(168, 162, 158, 0.4)";
+                ctx.moveTo(-size, 0);
+                ctx.lineTo(-size + 40, -40);
+                ctx.quadraticCurveTo(0, -size * 1.5 - 40, size + 40, -40);
+                ctx.lineTo(size, 0);
+                ctx.quadraticCurveTo(0, -size * 1.5, -size, 0);
+                ctx.fill();
+
+                // 4. 力流集中標示
+                const pts = [[-size, 0], [size, 0], [size + 40, -40], [-size + 40, -40]];
+                pts.forEach(pt => {
+                    drawForceArrow(pt[0], pt[1], Math.PI/2, 40);
+                });
+                
+                ctx.restore();
+
+                ctx.fillStyle = "#b45309";
+                ctx.font = "bold 16px sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText("重量沿稜線(Groins)下導", cx, cy - 180);
+                ctx.fillStyle = "#ef4444";
+                ctx.fillText("壓力集中於四角", cx, cy + 80);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
