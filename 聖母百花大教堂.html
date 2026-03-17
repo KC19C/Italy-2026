@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聖母百花大教堂 — 圓頂工法解析</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Noto+Serif+TC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --terracotta: #c4622d;
+  --terracotta-light: #e07840;
+  --terracotta-deep: #8a3e18;
+  --marble: #f2ede4;
+  --marble-dim: #d4c9b8;
+  --marble-deep: #a89880;
+  --ink: #1a1410;
+  --ink-mid: #2e2418;
+  --ink-warm: #3d3020;
+  --gold: #c9993a;
+  --gold-light: #e8c060;
+  --emerald: #2a5c3a;
+  --sky-rose: #d4a070;
+  --stone-grey: #7a6858;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--marble);
+  font-family: 'Noto Serif TC', 'Cormorant Garamond', serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ── CUSTOM CURSOR ── */
+body::before {
+  content: '';
+  position: fixed;
+  width: 6px; height: 6px;
+  background: var(--terracotta);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s;
+}
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(196,98,45,0.03) 40px,
+      rgba(196,98,45,0.03) 41px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(196,98,45,0.03) 40px,
+      rgba(196,98,45,0.03) 41px
+    );
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 4rem;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.hero-eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.6em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.2s ease-out forwards;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--marble);
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.5s ease-out forwards;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--terracotta-light);
+}
+
+.hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-style: italic;
+  color: var(--marble-dim);
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.8s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Duomo SVG illustration */
+.duomo-hero-wrap {
+  width: min(680px, 92vw);
+  margin: 0 auto 3rem;
+  opacity: 0;
+  animation: fadeUp 1.5s 0.3s ease-out forwards;
+  filter: drop-shadow(0 20px 60px rgba(196,98,45,0.25));
+}
+
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 1.2s 1.5s ease-out forwards;
+  cursor: pointer;
+}
+.scroll-indicator span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: var(--stone-grey);
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(180deg, var(--terracotta), transparent);
+  animation: scrollPulse 2s infinite;
+}
+@keyframes scrollPulse {
+  0%,100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.6); opacity: 0.5; }
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(26,20,16,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(196,98,45,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.8rem, 2.5vw, 2.5rem);
+  padding: 0.9rem 1.5rem;
+  flex-wrap: wrap;
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  color: var(--terracotta);
+  letter-spacing: 0.05em;
+  margin-right: 1rem;
+}
+
+nav a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.25em;
+  color: var(--marble-dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  white-space: nowrap;
+}
+nav a:hover { color: var(--terracotta-light); }
+
+/* ── SECTION BASE ── */
+.section-wrap {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 7rem 2rem;
+}
+
+.section-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(196,98,45,0.08);
+  line-height: 1;
+  position: absolute;
+  top: 4rem;
+  right: 2rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+.section-tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.5em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-tag::before {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: var(--terracotta);
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--marble);
+  line-height: 1.25;
+  margin-bottom: 1.2rem;
+}
+h2 em { font-style: italic; color: var(--terracotta-light); }
+
+.prose {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.95;
+  color: var(--marble-dim);
+  font-weight: 300;
+  max-width: 680px;
+}
+.prose strong { color: var(--marble); font-weight: 600; }
+
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  color: rgba(196,98,45,0.5);
+  font-size: 1.2rem;
+}
+.ornament::before, .ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(196,98,45,0.2);
+}
+
+/* ── TIMELINE (CENTURIES) ── */
+#history { background: linear-gradient(180deg, var(--ink) 0%, var(--ink-warm) 100%); position: relative; }
+
+.century-timeline {
+  position: relative;
+  margin-top: 3.5rem;
+  padding-left: 0;
+}
+
+.century-track {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--terracotta-deep) transparent;
+}
+
+.century-item {
+  min-width: 200px;
+  flex: 1;
+  border-left: 2px solid rgba(196,98,45,0.25);
+  padding: 0 1.5rem 2rem;
+  cursor: pointer;
+  transition: all 0.4s;
+  position: relative;
+}
+.century-item::before {
+  content: '';
+  position: absolute;
+  left: -6px; top: 0;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--terracotta-deep);
+  border: 2px solid var(--terracotta);
+  transition: all 0.3s;
+}
+.century-item:hover::before, .century-item.active::before {
+  background: var(--terracotta-light);
+  box-shadow: 0 0 16px rgba(196,98,45,0.6);
+  transform: scale(1.3);
+}
+.century-item.active { border-left-color: var(--terracotta); }
+
+.century-year {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--terracotta);
+  margin-bottom: 0.4rem;
+}
+.century-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--marble);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.century-desc {
+  font-size: 0.82rem;
+  color: var(--marble-dim);
+  line-height: 1.6;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* ── DOUBLE SHELL ── */
+#double-shell {
+  background: radial-gradient(ellipse at 30% 60%, rgba(196,98,45,0.06) 0%, transparent 60%), var(--ink-warm);
+  position: relative;
+  overflow: hidden;
+}
+
+.shell-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-top: 3rem;
+}
+@media(max-width:768px){ .shell-layout { grid-template-columns: 1fr; gap: 2rem; } }
+
+.shell-canvas-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.shell-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.shell-tab {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(196,98,45,0.3);
+  color: var(--marble-dim);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.shell-tab:hover, .shell-tab.active {
+  border-color: var(--terracotta);
+  color: var(--terracotta-light);
+  background: rgba(196,98,45,0.08);
+}
+
+.info-block {
+  padding: 1.2rem;
+  border-left: 2px solid var(--terracotta);
+  background: rgba(196,98,45,0.05);
+  margin-bottom: 1rem;
+  transition: all 0.4s;
+}
+.info-block-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.info-block p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  color: var(--marble-dim);
+  line-height: 1.7;
+}
+
+/* ── HERRINGBONE ── */
+#herringbone {
+  background: var(--ink);
+  position: relative;
+}
+
+.hb-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+  margin-top: 3rem;
+}
+@media(max-width:768px){ .hb-layout { grid-template-columns: 1fr; } }
+
+.hb-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hb-step {
+  display: flex;
+  gap: 1.2rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid rgba(196,98,45,0.1);
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+.hb-step:hover { padding-left: 0.5rem; }
+.hb-step.active { background: rgba(196,98,45,0.05); padding-left: 1rem; margin: 0 -1rem; padding-right: 1rem; border-radius: 4px; }
+
+.hb-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgba(196,98,45,0.4);
+  width: 28px;
+  flex-shrink: 0;
+  transition: color 0.3s;
+}
+.hb-step.active .hb-num, .hb-step:hover .hb-num { color: var(--terracotta); }
+
+.hb-text {}
+.hb-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--marble);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.05em;
+}
+.hb-desc {
+  font-size: 0.87rem;
+  color: var(--marble-dim);
+  line-height: 1.6;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* ── CONSTRUCTION MACHINE ── */
+#machine {
+  background: radial-gradient(ellipse at 70% 30%, rgba(196,98,45,0.07) 0%, transparent 60%), var(--ink-warm);
+}
+
+.machine-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin-top: 3rem;
+}
+@media(max-width:768px){ .machine-layout { grid-template-columns: 1fr; } }
+
+.machine-cards {
+  display: grid;
+  gap: 1rem;
+}
+.machine-card {
+  padding: 1.2rem 1.5rem;
+  border: 1px solid rgba(196,98,45,0.15);
+  border-radius: 2px;
+  transition: all 0.4s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.machine-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--terracotta);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s;
+}
+.machine-card:hover::before, .machine-card.active::before { transform: scaleY(1); }
+.machine-card:hover, .machine-card.active {
+  border-color: rgba(196,98,45,0.4);
+  background: rgba(196,98,45,0.05);
+}
+.mc-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--marble);
+  margin-bottom: 0.4rem;
+}
+.mc-tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  font-family: 'Cormorant Garamond', serif;
+  margin-bottom: 0.5rem;
+}
+.mc-desc {
+  font-size: 0.87rem;
+  color: var(--marble-dim);
+  line-height: 1.6;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* ── STATS ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: rgba(196,98,45,0.15);
+  border: 1px solid rgba(196,98,45,0.15);
+  margin: 3rem 0;
+}
+.stat-cell {
+  background: var(--ink-warm);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--terracotta-light);
+  line-height: 1;
+  display: block;
+}
+.stat-unit {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  color: var(--marble-deep);
+  margin-top: 0.4rem;
+  letter-spacing: 0.1em;
+}
+
+/* ── PROCESS FLOW ── */
+#process { background: var(--ink); }
+
+.process-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0;
+  margin: 3rem 0;
+  border: 1px solid rgba(196,98,45,0.15);
+}
+
+.process-step {
+  padding: 2rem 1.5rem;
+  border-right: 1px solid rgba(196,98,45,0.15);
+  position: relative;
+  transition: background 0.4s;
+  cursor: pointer;
+}
+.process-step:last-child { border-right: none; }
+.process-step:hover { background: rgba(196,98,45,0.06); }
+.process-step::after {
+  content: '→';
+  position: absolute;
+  right: -12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--terracotta-deep);
+  font-size: 1rem;
+  z-index: 1;
+}
+.process-step:last-child::after { display: none; }
+
+.ps-phase {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.ps-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--marble);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+.ps-detail {
+  font-size: 0.8rem;
+  color: var(--marble-dim);
+  line-height: 1.5;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* ── LEGACY ── */
+#legacy {
+  background: radial-gradient(ellipse at 50% 100%, rgba(196,98,45,0.1) 0%, transparent 60%), var(--ink-warm);
+  text-align: center;
+  padding: 8rem 2rem;
+}
+
+.legacy-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-style: italic;
+  color: var(--marble);
+  max-width: 760px;
+  margin: 2rem auto;
+  line-height: 1.6;
+}
+.legacy-attr {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: var(--stone-grey);
+  text-transform: uppercase;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid rgba(196,98,45,0.15);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.footer-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  color: var(--stone-grey);
+  text-transform: uppercase;
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+canvas { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<div id="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Firenze · 1296–1436 · 建築奇蹟</p>
+
+    <!-- Duomo SVG -->
+    <div class="duomo-hero-wrap">
+      <canvas id="heroCanvas" width="680" height="320" style="width:100%;height:auto;"></canvas>
+    </div>
+
+    <h1 class="hero-title">聖母<em>百花</em>大教堂</h1>
+    <p class="hero-subtitle">Santa Maria del Fiore — 圓頂工法全解析</p>
+    <div class="scroll-indicator" onclick="document.querySelector('nav').scrollIntoView()">
+      <div class="scroll-line"></div>
+      <span>探索</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <span class="nav-brand">S.M.F.</span>
+  <a href="#history">世紀歷程</a>
+  <a href="#double-shell">雙殼結構</a>
+  <a href="#herringbone">人字砌法</a>
+  <a href="#machine">建造機具</a>
+  <a href="#process">施工工序</a>
+  <a href="#legacy">歷史遺產</a>
+</nav>
+
+<!-- ══ SECTION 1: HISTORY ══ -->
+<div id="history" style="position:relative; overflow:hidden;">
+  <div class="section-wrap">
+    <span class="section-number">01</span>
+    <div class="section-tag reveal">世紀建造歷程</div>
+    <h2 class="reveal reveal-delay-1">橫跨<em>140年</em>的建築夢想</h2>
+    <p class="prose reveal reveal-delay-2">
+      1296年，佛羅倫斯共和國決心建造一座超越一切的主教座堂。然而當建築師
+      <strong>阿諾爾福·迪·坎比奧</strong>設計出直徑44.5公尺的巨型圓頂時，
+      沒有任何人知道如何建造它——這個問題懸置了一個多世紀，直到
+      <strong>菲利波·布魯內萊斯基</strong>橫空出世。
+    </p>
+
+    <div class="ornament reveal">✦</div>
+
+    <div class="century-track reveal">
+      <div class="century-item active" onclick="setCentury(this)">
+        <div class="century-year">1296</div>
+        <div class="century-title">奠基動工</div>
+        <div class="century-desc">阿諾爾福設計方案，確定八角形基座與超大圓頂輪廓，正式動工。</div>
+      </div>
+      <div class="century-item" onclick="setCentury(this)">
+        <div class="century-year">1330s</div>
+        <div class="century-title">喬托鐘樓</div>
+        <div class="century-desc">喬托·迪·邦多納接手監工，建造標誌性鐘樓。黑死病中斷工程。</div>
+      </div>
+      <div class="century-item" onclick="setCentury(this)">
+        <div class="century-year">1367</div>
+        <div class="century-title">圓頂決議</div>
+        <div class="century-desc">委員會確定圓頂方案：直徑44.5m，必須以「無支撐架」方式建造。</div>
+      </div>
+      <div class="century-item" onclick="setCentury(this)">
+        <div class="century-year">1418</div>
+        <div class="century-title">競圖奇蹟</div>
+        <div class="century-desc">布魯內萊斯基在公開競圖中勝出，提出雙殼結構與人字砌法方案。</div>
+      </div>
+      <div class="century-item" onclick="setCentury(this)">
+        <div class="century-year">1420</div>
+        <div class="century-title">圓頂動工</div>
+        <div class="century-desc">正式開始砌築穹頂，布魯內萊斯基同時擔任建築師兼工程師。</div>
+      </div>
+      <div class="century-item" onclick="setCentury(this)">
+        <div class="century-year">1436</div>
+        <div class="century-title">封頂完工</div>
+        <div class="century-desc">教皇尤金四世主持聖化儀式，教堂正式完工。布魯內萊斯基成為傳奇。</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row reveal">
+      <div class="stat-cell">
+        <span class="stat-num">140</span>
+        <div class="stat-unit">年 建造歷程</div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">44.5</span>
+        <div class="stat-unit">公尺 圓頂直徑</div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">91</span>
+        <div class="stat-unit">公尺 穹頂頂高</div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">400萬</span>
+        <div class="stat-unit">塊 磚塊用量</div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">16</span>
+        <div class="stat-unit">年 穹頂施工</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 2: DOUBLE SHELL ══ -->
+<div id="double-shell">
+  <div class="section-wrap">
+    <span class="section-number">02</span>
+    <div class="section-tag reveal">核心工法 · 革命性設計</div>
+    <h2 class="reveal reveal-delay-1"><em>雙殼結構</em> — 無中生有的支撐哲學</h2>
+
+    <div class="shell-layout">
+      <div class="shell-canvas-wrap reveal">
+        <canvas id="shellCanvas" width="440" height="480" style="max-width:100%;height:auto;"></canvas>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="prose" style="margin-bottom:1.5rem;">
+          傳統圓頂建造需要巨大的木質支撐架（centratura），但佛羅倫斯的圓頂
+          跨度達到 <strong>44.5公尺</strong>，製作支撐架所需的木材將耗盡托斯卡尼的森林。
+          布魯內萊斯基的天才答案：讓圓頂自己支撐自己。
+        </p>
+
+        <div class="shell-tabs">
+          <button class="shell-tab active" onclick="setShellView('overview')">全覽</button>
+          <button class="shell-tab" onclick="setShellView('outer')">外殼</button>
+          <button class="shell-tab" onclick="setShellView('inner')">內殼</button>
+          <button class="shell-tab" onclick="setShellView('ribs')">肋骨</button>
+          <button class="shell-tab" onclick="setShellView('rings')">橫環</button>
+        </div>
+
+        <div class="info-block" id="shell-info">
+          <div class="info-block-title">雙殼結構 Double-Shell</div>
+          <p>圓頂由內外兩層殼體組成，之間有約1.2公尺的中空夾層。8條大型石砌肋骨從底部延伸至天窗，再輔以16條小肋，形成結構骨架。水平橫環（catene）束緊整體，防止側向張開。</p>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">為何無需支撐架？</div>
+          <p>人字砌法讓每一圈砌磚能在固化前自我鎖定，不需臨時支撐。重力荷載沿肋骨傳遞至八角形基座鼓座，如石拱一般自我穩定。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 3: HERRINGBONE ══ -->
+<div id="herringbone">
+  <div class="section-wrap">
+    <span class="section-number">03</span>
+    <div class="section-tag reveal">砌磚技術 · 力學革新</div>
+    <h2 class="reveal reveal-delay-1"><em>人字砌法</em> — 讓磚塊違抗重力</h2>
+
+    <div class="hb-layout">
+      <div class="reveal">
+        <p class="prose" style="margin-bottom:2rem;">
+          傳統水平砌磚在球面圓頂中會因重力而向外滑落。布魯內萊斯基創造了
+          <strong>「spina pesce」人字骨砌法</strong>——每隔若干層水平磚，
+          插入一塊豎立的磚，形成互鎖的三角形張力網絡，讓每圈磚在砂漿固化前就能自立。
+        </p>
+
+        <div class="hb-steps">
+          <div class="hb-step active" onclick="setHBStep(this, 0)">
+            <div class="hb-num">1</div>
+            <div class="hb-text">
+              <div class="hb-name">水平環狀層（Horizontal Courses）</div>
+              <div class="hb-desc">主要承重層，磚塊水平排列，每層沿球面弧度微微內傾，利用幾何形狀自我穩定。</div>
+            </div>
+          </div>
+          <div class="hb-step" onclick="setHBStep(this, 1)">
+            <div class="hb-num">2</div>
+            <div class="hb-text">
+              <div class="hb-name">豎立鎖定磚（Vertical Lock Bricks）</div>
+              <div class="hb-desc">每隔約6層水平磚，插入豎立的磚塊，形成垂直於球面的「齒」，咬住上下層磚，防止整圈下滑。</div>
+            </div>
+          </div>
+          <div class="hb-step" onclick="setHBStep(this, 2)">
+            <div class="hb-num">3</div>
+            <div class="hb-text">
+              <div class="hb-name">人字骨圖案（Herringbone Pattern）</div>
+              <div class="hb-desc">水平磚與豎磚交織，從正面看形如魚骨或麥穗（spina pesce）。斜向力分解，張力網絡傳遞至肋骨。</div>
+            </div>
+          </div>
+          <div class="hb-step" onclick="setHBStep(this, 3)">
+            <div class="hb-num">4</div>
+            <div class="hb-text">
+              <div class="hb-name">石砌肋骨（Stone Ribs）整合</div>
+              <div class="hb-desc">所有砌磚力學最終匯入8條大肋骨，肋骨為砂岩材質，抗壓強度遠高於磚塊，是整體骨架。</div>
+            </div>
+          </div>
+          <div class="hb-step" onclick="setHBStep(this, 4)">
+            <div class="hb-num">5</div>
+            <div class="hb-text">
+              <div class="hb-name">水平鐵環（Iron Chains）束紮</div>
+              <div class="hb-desc">布魯內萊斯基在不同高度嵌入鐵鏈與木環，如桶箍束緊木桶，抵抗圓頂向外擴張的側推力。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <canvas id="hbCanvas" width="420" height="520" style="max-width:100%;height:auto;"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 4: MACHINES ══ -->
+<div id="machine">
+  <div class="section-wrap">
+    <span class="section-number">04</span>
+    <div class="section-tag reveal">工程機具 · 發明革命</div>
+    <h2 class="reveal reveal-delay-1">布魯內萊斯基的<em>機械天才</em></h2>
+    <p class="prose reveal reveal-delay-2">
+      建造圓頂不只需要建築智慧，更需要前所未有的機械工程。布魯內萊斯基為此
+      發明了多種起重機具，其設計思路領先時代兩個世紀，連達文西都研究過他的圖紙。
+    </p>
+
+    <div class="machine-layout">
+      <div>
+        <canvas id="machineCanvas" width="520" height="400" style="max-width:100%;height:auto;" class="reveal"></canvas>
+      </div>
+      <div class="machine-cards reveal reveal-delay-2">
+        <div class="machine-card active" onclick="setMachine(this, 0)">
+          <div class="mc-tag">主要起重機</div>
+          <div class="mc-title">牛力起重機 Ox Hoist</div>
+          <div class="mc-desc">以公牛為動力，透過齒輪組放大力矩，可升降重達500公斤的石材與磚料。首創可逆轉傳動機構，牛不必轉身即可換方向。</div>
+        </div>
+        <div class="machine-card" onclick="setMachine(this, 1)">
+          <div class="mc-tag">水平移動</div>
+          <div class="mc-title">旋臂吊車 Rotating Crane</div>
+          <div class="mc-desc">安裝於穹頂中央，可在360度範圍內水平旋轉並調整仰角，將物料精確送達圓頂任意位置。</div>
+        </div>
+        <div class="machine-card" onclick="setMachine(this, 2)">
+          <div class="mc-tag">輔助工具</div>
+          <div class="mc-title">模板控制系統</div>
+          <div class="mc-desc">布魯內萊斯基用繩索與固定點控制每層磚的曲率半徑，確保整個穹頂以精確的四心弧（pointed arch）曲線上升。</div>
+        </div>
+        <div class="machine-card" onclick="setMachine(this, 3)">
+          <div class="mc-tag">工人設施</div>
+          <div class="mc-title">高空餐廳與走道</div>
+          <div class="mc-desc">為避免工人每天爬梯耗費體力，布魯內萊斯基在腳手架上設置用餐區與飲水站，並建立永久性螺旋走道通達頂部。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 5: PROCESS ══ -->
+<div id="process">
+  <div class="section-wrap">
+    <span class="section-number">05</span>
+    <div class="section-tag reveal">完整施工工序</div>
+    <h2 class="reveal reveal-delay-1">從基座到天窗——<em>十六年</em>的層層疊砌</h2>
+    <p class="prose reveal reveal-delay-2">
+      穹頂施工分為嚴格的階段：每一圈砌磚都必須等前一圈砂漿固化後才能繼續，
+      工程在冬季氣溫低時刻意放慢，夏季是主要施工季。以下是完整工序。
+    </p>
+
+    <div class="process-flow reveal">
+      <div class="process-step">
+        <div class="ps-phase">Phase 01</div>
+        <div class="ps-title">鼓座 Drum 砌築</div>
+        <div class="ps-detail">在原有八角形基座上方砌築高達12m的鼓座（tamburo），確保圓頂有足夠高度讓光線進入。</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-phase">Phase 02</div>
+        <div class="ps-title">八大肋骨立架</div>
+        <div class="ps-detail">8條砂岩大肋骨從八角頂點開始向上延伸，每條由多塊精磨石料鏈接，中心插入榫孔固定。</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-phase">Phase 03</div>
+        <div class="ps-title">雙殼磚砌循環</div>
+        <div class="ps-detail">在肋骨間以人字砌法交替砌築內外殼，每完成一水平環即嵌入鐵鏈，等固化後再升一層。</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-phase">Phase 04</div>
+        <div class="ps-title">收口與天窗</div>
+        <div class="ps-detail">頂部以直徑約7m的八角形天窗（lanterna）收口，由白色大理石製成，固化後承壓整個穹頂。</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-phase">Phase 05</div>
+        <div class="ps-title">銅球封頂</div>
+        <div class="ps-detail">1472年，韋羅奇奧工作室（達文西當時是學徒）製作並安裝頂端金銅球，至此全部完工。</div>
+      </div>
+    </div>
+
+    <!-- Interactive process animation canvas -->
+    <div style="display:flex;justify-content:center;margin:2rem 0;" class="reveal">
+      <canvas id="processCanvas" width="700" height="320" style="max-width:100%;height:auto;border-radius:4px;"></canvas>
+    </div>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;" class="reveal">
+      <button class="shell-tab active" id="procBtn0" onclick="setPhase(0)">① 鼓座</button>
+      <button class="shell-tab" id="procBtn1" onclick="setPhase(1)">② 肋骨</button>
+      <button class="shell-tab" id="procBtn2" onclick="setPhase(2)">③ 雙殼砌磚</button>
+      <button class="shell-tab" id="procBtn3" onclick="setPhase(3)">④ 天窗</button>
+      <button class="shell-tab" id="procBtn4" onclick="setPhase(4)">⑤ 完工</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 6: LEGACY ══ -->
+<div id="legacy">
+  <div class="section-wrap" style="text-align:center;">
+    <span class="section-number" style="right:50%;transform:translateX(50%);">06</span>
+    <div class="section-tag reveal" style="justify-content:center;">歷史遺產</div>
+    <h2 class="reveal">建築師的<em>永恆答案</em></h2>
+
+    <div class="ornament reveal">✦</div>
+
+    <p class="legacy-quote reveal reveal-delay-1">
+      「布魯內萊斯基的圓頂證明了一件事：<br>
+      偉大的工程問題，需要的不只是技術，<br>
+      而是勇氣去想像從未存在過的答案。」
+    </p>
+    <p class="legacy-attr reveal reveal-delay-2">— 文藝復興建築史詮釋</p>
+
+    <div class="ornament reveal">✦</div>
+
+    <div class="stats-row reveal" style="max-width:800px;margin:2rem auto;">
+      <div class="stat-cell">
+        <span class="stat-num">588</span>
+        <div class="stat-unit">年 矗立至今</div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">仍然</span>
+        <div class="stat-unit">歐洲最大磚砌穹頂</div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">UNESCO</span>
+        <div class="stat-unit">世界文化遺產</div>
+      </div>
+    </div>
+
+    <p class="prose reveal reveal-delay-1" style="margin:0 auto; text-align:center;">
+      布魯內萊斯基的雙殼結構、人字砌法與機械創新，
+      直接影響了米開朗基羅設計聖彼得大教堂圓頂，
+      並奠定了現代工程學「<strong>系統性解決問題</strong>」的思維方式。
+      這座圓頂不只是一棟建築，而是文藝復興精神的石砌宣言。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-text">Santa Maria del Fiore · Firenze</span>
+  <span style="color:rgba(196,98,45,0.4)">✦</span>
+  <span class="footer-text">Filippo Brunelleschi · 1377–1446</span>
+  <span style="color:rgba(196,98,45,0.4)">✦</span>
+  <span class="footer-text">建築奇蹟 · 永恆之花</span>
+</footer>
+
+<script>
+// ════════════════════════════════════
+// HERO CANVAS — Duomo Illustration
+// ════════════════════════════════════
+const heroCtx = document.getElementById('heroCanvas').getContext('2d');
+let heroT = 0;
+
+function drawHero() {
+  const W = 680, H = 320;
+  heroCtx.clearRect(0, 0, W, H);
+
+  // Sky gradient bg
+  const sky = heroCtx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, '#0d0a08');
+  sky.addColorStop(0.5, '#1a1208');
+  sky.addColorStop(1, '#2a1a0a');
+  heroCtx.fillStyle = sky;
+  heroCtx.fillRect(0, 0, W, H);
+
+  const cx = W / 2, baseY = H - 10;
+
+  // Stars
+  const stars = [[80,40],[150,20],[500,35],[580,18],[620,60],[45,80],[630,90]];
+  stars.forEach(([x,y]) => {
+    const alpha = 0.3 + Math.sin(heroT * 0.8 + x) * 0.2;
+    heroCtx.save();
+    heroCtx.beginPath();
+    heroCtx.arc(x, y, 1.2, 0, Math.PI * 2);
+    heroCtx.fillStyle = `rgba(240,220,180,${alpha})`;
+    heroCtx.fill();
+    heroCtx.restore();
+  });
+
+  // Horizon glow
+  const glow = heroCtx.createRadialGradient(cx, baseY, 0, cx, baseY, 300);
+  glow.addColorStop(0, 'rgba(196,98,45,0.15)');
+  glow.addColorStop(1, 'rgba(196,98,45,0)');
+  heroCtx.fillStyle = glow;
+  heroCtx.fillRect(0, 0, W, H);
+
+  // Cityscape background
+  heroCtx.fillStyle = 'rgba(26,16,8,0.8)';
+  [[60,250,50,60],[130,245,40,65],[620,248,45,62],[550,252,35,58]].forEach(([x,y,w,h]) => {
+    heroCtx.fillRect(x, y, w, h);
+  });
+
+  // Main Cathedral body
+  // Nave
+  const naveW = 220, naveH = 80;
+  const naveX = cx - naveW/2, naveY = baseY - naveH;
+  heroCtx.fillStyle = '#3a2a18';
+  heroCtx.fillRect(naveX, naveY, naveW, naveH);
+
+  // Side aisles
+  heroCtx.fillStyle = '#2e2010';
+  heroCtx.fillRect(naveX - 40, baseY - 55, 40, 55);
+  heroCtx.fillRect(naveX + naveW, baseY - 55, 40, 55);
+
+  // Marble cladding pattern (green/white/pink)
+  const colors = ['#2a4030','#3a3028','#4a2828'];
+  for (let i = 0; i < 5; i++) {
+    heroCtx.fillStyle = colors[i % 3];
+    heroCtx.fillRect(naveX + 5 + i * 44, naveY + 5, 38, naveH - 10);
+  }
+
+  // Octagonal drum
+  const drumR = 58, drumH = 40;
+  const drumCY = naveY;
+  heroCtx.save();
+  heroCtx.fillStyle = '#4a3420';
+  heroCtx.beginPath();
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2 - Math.PI / 8;
+    const x = cx + drumR * Math.cos(a);
+    const y = drumCY + drumR * 0.4 * Math.sin(a);
+    i === 0 ? heroCtx.moveTo(x, y) : heroCtx.lineTo(x, y);
+  }
+  heroCtx.closePath();
+  heroCtx.fill();
+
+  // Lower drum band
+  heroCtx.fillStyle = '#3a2a18';
+  heroCtx.beginPath();
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2 - Math.PI / 8;
+    const x = cx + drumR * Math.cos(a);
+    const y = drumCY + drumR * 0.4 * Math.sin(a);
+    i === 0 ? heroCtx.moveTo(x, y) : heroCtx.lineTo(x, y);
+  }
+  heroCtx.closePath();
+  heroCtx.fill();
+  heroCtx.restore();
+
+  // THE DOME — main terracotta dome
+  const domeBase = drumCY - 5;
+  const domeH = 130;
+  const domeW = 120;
+
+  // Dome shadow/depth
+  heroCtx.save();
+  const domeShadow = heroCtx.createRadialGradient(cx + 20, domeBase - domeH * 0.3, 0, cx, domeBase, domeW);
+  domeShadow.addColorStop(0, 'rgba(0,0,0,0)');
+  domeShadow.addColorStop(1, 'rgba(0,0,0,0.5)');
+
+  // Draw dome shape (pointed arch profile)
+  heroCtx.beginPath();
+  // Left curve - 4-center arch
+  heroCtx.moveTo(cx - domeW, domeBase);
+  heroCtx.bezierCurveTo(
+    cx - domeW, domeBase - domeH * 0.5,
+    cx - domeW * 0.3, domeBase - domeH * 0.95,
+    cx, domeBase - domeH
+  );
+  // Right curve
+  heroCtx.bezierCurveTo(
+    cx + domeW * 0.3, domeBase - domeH * 0.95,
+    cx + domeW, domeBase - domeH * 0.5,
+    cx + domeW, domeBase
+  );
+  heroCtx.closePath();
+
+  const domeGrad = heroCtx.createLinearGradient(cx - domeW, 0, cx + domeW, 0);
+  domeGrad.addColorStop(0, '#5a2808');
+  domeGrad.addColorStop(0.3, '#c4622d');
+  domeGrad.addColorStop(0.6, '#e07840');
+  domeGrad.addColorStop(0.8, '#a04820');
+  domeGrad.addColorStop(1, '#3a1a08');
+  heroCtx.fillStyle = domeGrad;
+  heroCtx.fill();
+
+  // Dome ribs
+  heroCtx.strokeStyle = 'rgba(80,40,16,0.8)';
+  heroCtx.lineWidth = 2;
+  for (let i = -3; i <= 3; i++) {
+    if (i === 0) continue;
+    heroCtx.beginPath();
+    heroCtx.moveTo(cx + i * (domeW / 3.5), domeBase);
+    heroCtx.bezierCurveTo(
+      cx + i * (domeW / 3.5) * 0.6, domeBase - domeH * 0.5,
+      cx + i * (domeW / 8), domeBase - domeH * 0.9,
+      cx, domeBase - domeH
+    );
+    heroCtx.stroke();
+  }
+  heroCtx.restore();
+
+  // Lantern on top
+  const lantY = domeBase - domeH - 5;
+  heroCtx.save();
+  // Lantern body
+  heroCtx.fillStyle = '#d4c8b0';
+  heroCtx.fillRect(cx - 14, lantY - 35, 28, 35);
+  // Lantern columns
+  heroCtx.strokeStyle = '#b0a090';
+  heroCtx.lineWidth = 2;
+  for (let i = -2; i <= 2; i += 2) {
+    heroCtx.beginPath();
+    heroCtx.moveTo(cx + i * 6, lantY - 35);
+    heroCtx.lineTo(cx + i * 6, lantY);
+    heroCtx.stroke();
+  }
+  // Lantern cone
+  heroCtx.fillStyle = '#c4b090';
+  heroCtx.beginPath();
+  heroCtx.moveTo(cx - 14, lantY - 35);
+  heroCtx.lineTo(cx + 14, lantY - 35);
+  heroCtx.lineTo(cx, lantY - 55);
+  heroCtx.closePath();
+  heroCtx.fill();
+  // Golden ball
+  const ballPulse = 1 + Math.sin(heroT * 1.5) * 0.05;
+  const ballGrad = heroCtx.createRadialGradient(cx - 2, lantY - 62, 0, cx, lantY - 60, 7 * ballPulse);
+  ballGrad.addColorStop(0, '#ffe080');
+  ballGrad.addColorStop(0.5, '#c9993a');
+  ballGrad.addColorStop(1, '#8a6020');
+  heroCtx.beginPath();
+  heroCtx.arc(cx, lantY - 60, 7 * ballPulse, 0, Math.PI * 2);
+  heroCtx.fillStyle = ballGrad;
+  heroCtx.fill();
+  heroCtx.restore();
+
+  // Giotto Bell Tower (left side)
+  const towerX = cx - 200, towerY = baseY - 160, towerW = 40, towerH = 160;
+  heroCtx.fillStyle = '#3a3020';
+  heroCtx.fillRect(towerX, towerY, towerW, towerH);
+  // Tower marble stripes
+  for (let i = 0; i < 5; i++) {
+    heroCtx.fillStyle = i % 2 === 0 ? '#2a4030' : '#3a3028';
+    heroCtx.fillRect(towerX + 2, towerY + i * 30, towerW - 4, 28);
+  }
+  // Tower top
+  heroCtx.fillStyle = '#c4622d';
+  heroCtx.fillRect(towerX - 4, towerY - 15, towerW + 8, 15);
+
+  // Atmospheric glow on dome
+  const atmGlow = heroCtx.createRadialGradient(cx, domeBase - domeH * 0.5, 20, cx, domeBase - domeH * 0.5, domeW);
+  atmGlow.addColorStop(0, 'rgba(196,98,45,0.06)');
+  atmGlow.addColorStop(1, 'rgba(196,98,45,0)');
+  heroCtx.fillStyle = atmGlow;
+  heroCtx.fillRect(cx - domeW - 20, domeBase - domeH - 20, domeW * 2 + 40, domeH + 20);
+
+  heroT += 0.02;
+  requestAnimationFrame(drawHero);
+}
+drawHero();
+
+// ════════════════════════════════════
+// DOUBLE SHELL CANVAS
+// ════════════════════════════════════
+const shellCtx = document.getElementById('shellCanvas').getContext('2d');
+let shellView = 'overview';
+let shellT = 0;
+
+const shellInfo = {
+  overview: { title: '雙殼結構 Double-Shell', text: '內外兩層殼體由8條大肋骨連接，夾層中空1.2m，可通行維修。結構整體通過肋骨將荷載傳至基座，如石拱自穩。' },
+  outer: { title: '外殼 Outer Shell', text: '磚砌，厚約1.2–2.4m，承受風力與雨水侵蝕，外表面鋪設魚鱗型紅磚瓦，防水透氣。' },
+  inner: { title: '內殼 Inner Shell', text: '較厚，約2.4m，承受主要荷載，可直接看見其壁面。內有多圈水平嵌鐵鏈，防止側推。' },
+  ribs: { title: '8條大肋 + 16條小肋', text: '8條砂岩大肋從頂角延伸至天窗，是整體骨架。16條小肋位於兩大肋間，僅連接殼體不作主受力。' },
+  rings: { title: '水平橫環 Horizontal Rings', text: '以木料與鐵鏈構成多道水平環箍，抵抗圓頂向外的側推力，如桶箍原理固化整體。' },
+};
+
+function setShellView(v) {
+  shellView = v;
+  document.querySelectorAll('.shell-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  const info = shellInfo[v];
+  document.getElementById('shell-info').innerHTML = `<div class="info-block-title">${info.title}</div><p>${info.text}</p>`;
+}
+
+function drawShell() {
+  const W = 440, H = 480;
+  shellCtx.clearRect(0, 0, W, H);
+
+  const bg = shellCtx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#0d0a08');
+  bg.addColorStop(1, '#1a1208');
+  shellCtx.fillStyle = bg;
+  shellCtx.fillRect(0, 0, W, H);
+
+  const cx = W / 2, baseY = H - 30;
+  const domeH = 260, domeW = 140;
+
+  // Section cut line
+  shellCtx.save();
+  shellCtx.strokeStyle = 'rgba(196,98,45,0.3)';
+  shellCtx.lineWidth = 1;
+  shellCtx.setLineDash([4, 6]);
+  shellCtx.beginPath();
+  shellCtx.moveTo(cx, baseY);
+  shellCtx.lineTo(cx, baseY - domeH - 30);
+  shellCtx.stroke();
+  shellCtx.setLineDash([]);
+  shellCtx.restore();
+
+  // --- Draw full dome left half ---
+  // Outer shell
+  const isOuterHL = shellView === 'outer' || shellView === 'overview';
+  shellCtx.save();
+  shellCtx.beginPath();
+  shellCtx.moveTo(cx - domeW, baseY);
+  shellCtx.bezierCurveTo(cx - domeW, baseY - domeH * 0.5, cx - domeW * 0.3, baseY - domeH * 0.94, cx, baseY - domeH);
+  shellCtx.lineTo(cx, baseY);
+  shellCtx.closePath();
+  const outerG = shellCtx.createLinearGradient(cx - domeW, 0, cx, 0);
+  outerG.addColorStop(0, isOuterHL ? '#c4622d' : '#5a3018');
+  outerG.addColorStop(1, isOuterHL ? '#8a3e18' : '#3a1e0a');
+  shellCtx.fillStyle = outerG;
+  shellCtx.fill();
+  shellCtx.restore();
+
+  // Right half outer
+  shellCtx.save();
+  shellCtx.beginPath();
+  shellCtx.moveTo(cx + domeW, baseY);
+  shellCtx.bezierCurveTo(cx + domeW, baseY - domeH * 0.5, cx + domeW * 0.3, baseY - domeH * 0.94, cx, baseY - domeH);
+  shellCtx.lineTo(cx, baseY);
+  shellCtx.closePath();
+  shellCtx.fillStyle = isOuterHL ? 'rgba(196,98,45,0.2)' : 'rgba(90,48,24,0.2)';
+  shellCtx.fill();
+  if (shellView === 'outer') {
+    shellCtx.strokeStyle = 'rgba(224,120,64,0.6)';
+    shellCtx.lineWidth = 2;
+    shellCtx.stroke();
+  }
+  shellCtx.restore();
+
+  // Inner shell (cut section on left)
+  const innerW = domeW - 28, innerH = domeH - 20;
+  const isInnerHL = shellView === 'inner' || shellView === 'overview';
+  shellCtx.save();
+  shellCtx.beginPath();
+  shellCtx.moveTo(cx - innerW, baseY);
+  shellCtx.bezierCurveTo(cx - innerW, baseY - innerH * 0.5, cx - innerW * 0.3, baseY - innerH * 0.94, cx, baseY - innerH);
+  shellCtx.lineTo(cx, baseY);
+  shellCtx.closePath();
+  shellCtx.fillStyle = isInnerHL ? '#1a1208' : '#0d0a05';
+  shellCtx.fill();
+  shellCtx.restore();
+
+  // Air gap visible on cross-section
+  if (shellView === 'overview' || shellView === 'inner' || shellView === 'outer') {
+    shellCtx.save();
+    shellCtx.strokeStyle = 'rgba(201,153,58,0.3)';
+    shellCtx.lineWidth = 1;
+    shellCtx.setLineDash([3, 4]);
+    shellCtx.beginPath();
+    shellCtx.moveTo(cx - innerW + 5, baseY);
+    shellCtx.bezierCurveTo(cx - innerW + 5, baseY - innerH * 0.5, cx - innerW * 0.3 + 5, baseY - innerH * 0.94, cx, baseY - innerH + 5);
+    shellCtx.stroke();
+    shellCtx.setLineDash([]);
+    shellCtx.restore();
+  }
+
+  // RIBS
+  const isRibHL = shellView === 'ribs' || shellView === 'overview';
+  for (let r = 0; r < 4; r++) {
+    const t = r / 3;
+    const ribX = cx - domeW + t * domeW;
+    const ribBaseY = baseY - t * 0;
+
+    // simplified rib path
+    const ribW = 4 + (1 - t) * 4;
+    shellCtx.save();
+    shellCtx.beginPath();
+    shellCtx.moveTo(cx - (domeW - r * 30), baseY);
+    shellCtx.bezierCurveTo(
+      cx - (domeW - r * 30) * 0.8, baseY - domeH * 0.5,
+      cx - (domeW - r * 30) * 0.2, baseY - domeH * 0.95,
+      cx, baseY - domeH
+    );
+    const ribPulse = shellView === 'ribs' ? Math.sin(shellT * 2 + r) * 0.3 + 0.7 : 1;
+    shellCtx.strokeStyle = isRibHL ? `rgba(200,160,80,${0.7 * ribPulse})` : 'rgba(100,80,40,0.3)';
+    shellCtx.lineWidth = isRibHL ? 4 : 2;
+    shellCtx.stroke();
+    shellCtx.restore();
+  }
+
+  // Horizontal rings
+  const isRingHL = shellView === 'rings' || shellView === 'overview';
+  for (let i = 1; i <= 5; i++) {
+    const ringT = i / 6;
+    const ringY = baseY - ringT * domeH * 0.9;
+    // Approximate width at this height
+    const ringX = cx - domeW * (1 - ringT * 0.7);
+    const ringW2 = domeW * (1 - ringT * 0.7);
+    const ringPulse = shellView === 'rings' ? Math.sin(shellT * 3 + i) * 0.3 + 0.7 : 1;
+    shellCtx.save();
+    shellCtx.beginPath();
+    shellCtx.moveTo(cx - ringW2, ringY);
+    shellCtx.lineTo(cx + ringW2, ringY);
+    shellCtx.strokeStyle = isRingHL ? `rgba(120,160,200,${0.6 * ringPulse})` : 'rgba(60,80,100,0.25)';
+    shellCtx.lineWidth = isRingHL ? 3 : 1;
+    shellCtx.stroke();
+    shellCtx.restore();
+  }
+
+  // Label: Air gap
+  if (shellView === 'overview' || shellView === 'outer' || shellView === 'inner') {
+    shellCtx.save();
+    shellCtx.font = '10px "Cormorant Garamond", serif';
+    shellCtx.fillStyle = 'rgba(201,153,58,0.6)';
+    shellCtx.fillText('← 中空 1.2m →', cx - 65, baseY - 120);
+    shellCtx.restore();
+  }
+
+  // Dimension annotations
+  shellCtx.save();
+  shellCtx.font = '11px "Cormorant Garamond", serif';
+  shellCtx.fillStyle = 'rgba(196,98,45,0.7)';
+  shellCtx.fillText('Ø 44.5m', cx - 20, baseY + 20);
+  shellCtx.fillText('↑ 91m', cx + domeW + 10, baseY - domeH / 2);
+  shellCtx.restore();
+
+  shellT += 0.03;
+  requestAnimationFrame(drawShell);
+}
+drawShell();
+
+// ════════════════════════════════════
+// HERRINGBONE CANVAS
+// ════════════════════════════════════
+const hbCtx = document.getElementById('hbCanvas').getContext('2d');
+let hbT = 0;
+let hbStep = 0;
+
+function setHBStep(el, step) {
+  hbStep = step;
+  document.querySelectorAll('.hb-step').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function drawHerringbone() {
+  const W = 420, H = 520;
+  hbCtx.clearRect(0, 0, W, H);
+
+  const bg = hbCtx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#1a1208');
+  bg.addColorStop(1, '#0d0a05');
+  hbCtx.fillStyle = bg;
+  hbCtx.fillRect(0, 0, W, H);
+
+  // Draw a curved section of the dome showing brick pattern
+  const cx = W / 2, cy = H + 100;
+  const R = 320;
+  const startA = Math.PI * 1.15, endA = Math.PI * 1.85;
+
+  hbCtx.save();
+  hbCtx.beginPath();
+  hbCtx.arc(cx, cy, R + 60, startA, endA);
+  hbCtx.arc(cx, cy, R - 20, endA, startA, true);
+  hbCtx.closePath();
+  hbCtx.fillStyle = '#2a1a0a';
+  hbCtx.fill();
+  hbCtx.restore();
+
+  // Draw brick courses in curved pattern
+  const brickH = 18, brickW = 36;
+  const numCourses = 14;
+
+  for (let course = 0; course < numCourses; course++) {
+    const r = R - 10 + course * (brickH + 2);
+    const circumference = 2 * Math.PI * r;
+    const numBricks = Math.floor(circumference * 0.32 / (brickW + 2));
+    const isVertical = (course % 7 === 0); // vertical lock brick every 7 courses
+
+    for (let b = 0; b < numBricks; b++) {
+      const a = startA + (b / numBricks) * (endA - startA) + (course % 2 === 0 ? 0 : Math.PI / numBricks);
+      const x = cx + r * Math.cos(a);
+      const y = cy + r * Math.sin(a);
+
+      hbCtx.save();
+      hbCtx.translate(x, y);
+      hbCtx.rotate(a + Math.PI / 2);
+
+      if (isVertical) {
+        // Vertical lock brick
+        const vis = hbStep === 1 || hbStep === 2 || hbStep === 0;
+        hbCtx.fillStyle = vis ? (hbStep === 1 ? '#e07840' : '#c4622d') : '#5a3018';
+        hbCtx.fillRect(-brickH / 2, -brickW / 2, brickH, brickW);
+        hbCtx.strokeStyle = hbStep === 1 ? 'rgba(255,160,80,0.8)' : 'rgba(0,0,0,0.4)';
+        hbCtx.lineWidth = hbStep === 1 ? 2 : 0.5;
+        hbCtx.strokeRect(-brickH / 2, -brickW / 2, brickH, brickW);
+      } else {
+        // Horizontal brick
+        const hl = hbStep === 0 || hbStep === 2;
+        hbCtx.fillStyle = hl ? '#9a4820' : '#5a2a10';
+        hbCtx.fillRect(-brickW / 2, -brickH / 2, brickW, brickH);
+        hbCtx.strokeStyle = 'rgba(0,0,0,0.35)';
+        hbCtx.lineWidth = 0.5;
+        hbCtx.strokeRect(-brickW / 2, -brickH / 2, brickW, brickH);
+      }
+
+      // Herringbone highlight at step 2
+      if (hbStep === 2 && isVertical) {
+        hbCtx.fillStyle = `rgba(232,192,96,${0.3 + Math.sin(hbT * 2 + b) * 0.2})`;
+        hbCtx.fillRect(-brickH / 2, -brickW / 2, brickH, brickW);
+      }
+
+      hbCtx.restore();
+    }
+  }
+
+  // Show ribs at step 3
+  if (hbStep === 3) {
+    for (let rr = 0; rr <= 3; rr++) {
+      const ribA = startA + rr * (endA - startA) / 3;
+      hbCtx.save();
+      hbCtx.beginPath();
+      hbCtx.moveTo(cx + (R - 30) * Math.cos(ribA), cy + (R - 30) * Math.sin(ribA));
+      hbCtx.lineTo(cx + (R + 70) * Math.cos(ribA), cy + (R + 70) * Math.sin(ribA));
+      hbCtx.strokeStyle = `rgba(200,160,80,${0.7 + Math.sin(hbT * 2 + rr) * 0.3})`;
+      hbCtx.lineWidth = 8;
+      hbCtx.stroke();
+      hbCtx.restore();
+    }
+  }
+
+  // Show iron rings at step 4
+  if (hbStep === 4) {
+    for (let i = 0; i < 3; i++) {
+      const ringR = R + 15 + i * 15;
+      const alpha = 0.5 + Math.sin(hbT * 3 + i) * 0.3;
+      hbCtx.save();
+      hbCtx.beginPath();
+      hbCtx.arc(cx, cy, ringR, startA - 0.1, endA + 0.1);
+      hbCtx.strokeStyle = `rgba(120,180,240,${alpha})`;
+      hbCtx.lineWidth = 4;
+      hbCtx.stroke();
+      hbCtx.restore();
+    }
+  }
+
+  // Labels
+  hbCtx.save();
+  hbCtx.font = '11px "Cormorant Garamond", serif';
+  hbCtx.fillStyle = 'rgba(196,98,45,0.8)';
+  const labels = ['水平層', '豎立鎖磚', '人字圖案', '肋骨整合', '鐵環束紮'];
+  hbCtx.fillText(`▶ ${labels[hbStep]}`, 16, H - 16);
+  hbCtx.restore();
+
+  hbT += 0.04;
+  requestAnimationFrame(drawHerringbone);
+}
+drawHerringbone();
+
+// ════════════════════════════════════
+// MACHINE CANVAS
+// ════════════════════════════════════
+const machCtx = document.getElementById('machineCanvas').getContext('2d');
+let machT = 0;
+let machMode = 0;
+
+function setMachine(el, mode) {
+  machMode = mode;
+  document.querySelectorAll('.machine-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function drawMachine() {
+  const W = 520, H = 400;
+  machCtx.clearRect(0, 0, W, H);
+
+  const bg = machCtx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#1a1208');
+  bg.addColorStop(1, '#0d0a05');
+  machCtx.fillStyle = bg;
+  machCtx.fillRect(0, 0, W, H);
+
+  if (machMode === 0) drawOxHoist();
+  else if (machMode === 1) drawRotatingCrane();
+  else if (machMode === 2) drawTemplateSystem();
+  else drawRestArea();
+
+  machT += 0.04;
+  requestAnimationFrame(drawMachine);
+}
+
+function drawOxHoist() {
+  const W = 520, H = 400;
+  // Ground
+  machCtx.fillStyle = '#2a1a0a';
+  machCtx.fillRect(0, H - 60, W, 60);
+
+  // Tower structure
+  machCtx.fillStyle = '#5a3a18';
+  machCtx.fillRect(60, 80, 25, H - 140);
+  machCtx.fillRect(220, 80, 25, H - 140);
+
+  // Crossbeam
+  machCtx.fillStyle = '#7a5030';
+  machCtx.fillRect(55, 80, 195, 18);
+
+  // Rope
+  const ropeY = 20 + Math.sin(machT * 1.5) * 30;
+  machCtx.save();
+  machCtx.strokeStyle = '#b09060';
+  machCtx.lineWidth = 2.5;
+  machCtx.beginPath();
+  machCtx.moveTo(150, 98);
+  machCtx.lineTo(150, ropeY + 120);
+  machCtx.stroke();
+
+  // Load (stone block going up)
+  machCtx.fillStyle = '#8a6840';
+  machCtx.fillRect(120, ropeY + 120, 60, 30);
+  machCtx.strokeStyle = '#c9a84c';
+  machCtx.lineWidth = 1;
+  machCtx.strokeRect(120, ropeY + 120, 60, 30);
+  machCtx.restore();
+
+  // Gear wheels
+  for (let g = 0; g < 3; g++) {
+    const gx = 300 + g * 55, gy = 180;
+    const r = 20 - g * 3;
+    const rot = machT * (g % 2 === 0 ? 1 : -1) * (g + 1) * 0.5;
+    machCtx.save();
+    machCtx.translate(gx, gy);
+    machCtx.rotate(rot);
+    machCtx.beginPath();
+    machCtx.arc(0, 0, r, 0, Math.PI * 2);
+    machCtx.strokeStyle = '#c9993a';
+    machCtx.lineWidth = 2;
+    machCtx.stroke();
+    for (let t = 0; t < 8; t++) {
+      const ta = (t / 8) * Math.PI * 2;
+      machCtx.beginPath();
+      machCtx.moveTo(Math.cos(ta) * r, Math.sin(ta) * r);
+      machCtx.lineTo(Math.cos(ta) * (r + 6), Math.sin(ta) * (r + 6));
+      machCtx.stroke();
+    }
+    machCtx.restore();
+  }
+
+  // Ox drawing
+  const oxX = 350, oxY = H - 80;
+  const walkOffset = Math.sin(machT * 2) * 3;
+  machCtx.save();
+  machCtx.translate(walkOffset, 0);
+  machCtx.fillStyle = '#8a7060';
+  machCtx.fillRect(oxX - 40, oxY - 30, 80, 30); // body
+  machCtx.fillRect(oxX - 50, oxY - 20, 15, 20); // head
+  machCtx.fillRect(oxX - 45, oxY, 15, 15); // leg1
+  machCtx.fillRect(oxX - 25, oxY + walkOffset, 12, 15); // leg2
+  machCtx.fillRect(oxX + 15, oxY, 12, 15); // leg3
+  machCtx.fillRect(oxX + 30, oxY + walkOffset, 12, 15); // leg4
+  machCtx.restore();
+
+  // Label
+  machCtx.save();
+  machCtx.font = '12px "Cormorant Garamond", serif';
+  machCtx.fillStyle = 'rgba(201,153,58,0.8)';
+  machCtx.fillText('牛力起重機 — 齒輪放大力矩', 20, 30);
+  machCtx.fillStyle = 'rgba(196,98,45,0.6)';
+  machCtx.fillText('↑ 可升降 500kg', 110, ropeY + 115);
+  machCtx.restore();
+}
+
+function drawRotatingCrane() {
+  const W = 520, H = 400;
+  const cx = W / 2, cy = H - 40;
+  const craneAngle = machT * 0.4;
+
+  // Dome base sketch
+  machCtx.save();
+  machCtx.beginPath();
+  machCtx.arc(cx, cy, 160, Math.PI, 0);
+  machCtx.strokeStyle = 'rgba(196,98,45,0.3)';
+  machCtx.lineWidth = 1;
+  machCtx.stroke();
+  machCtx.restore();
+
+  // Crane mast
+  machCtx.fillStyle = '#7a5030';
+  machCtx.fillRect(cx - 8, cy - 200, 16, 200);
+
+  // Rotating arm
+  const armLen = 120;
+  const armEndX = cx + Math.cos(craneAngle) * armLen;
+  const armEndY = (cy - 180) + Math.sin(craneAngle) * armLen * 0.3;
+
+  machCtx.save();
+  machCtx.strokeStyle = '#c9993a';
+  machCtx.lineWidth = 6;
+  machCtx.beginPath();
+  machCtx.moveTo(cx, cy - 180);
+  machCtx.lineTo(armEndX, armEndY);
+  machCtx.stroke();
+
+  // Hanging load
+  machCtx.strokeStyle = '#b09060';
+  machCtx.lineWidth = 2;
+  machCtx.beginPath();
+  machCtx.moveTo(armEndX, armEndY);
+  machCtx.lineTo(armEndX, armEndY + 50);
+  machCtx.stroke();
+
+  machCtx.fillStyle = '#8a6840';
+  machCtx.fillRect(armEndX - 15, armEndY + 50, 30, 18);
+  machCtx.restore();
+
+  // Rotation arc indicator
+  machCtx.save();
+  machCtx.beginPath();
+  machCtx.arc(cx, cy - 180, 30, 0, craneAngle % (Math.PI * 2));
+  machCtx.strokeStyle = 'rgba(196,98,45,0.4)';
+  machCtx.lineWidth = 2;
+  machCtx.stroke();
+  machCtx.restore();
+
+  machCtx.save();
+  machCtx.font = '12px "Cormorant Garamond", serif';
+  machCtx.fillStyle = 'rgba(201,153,58,0.8)';
+  machCtx.fillText('旋臂吊車 — 360° 旋轉供料', 20, 30);
+  machCtx.restore();
+}
+
+function drawTemplateSystem() {
+  const W = 520, H = 400;
+  const cx = W / 2;
+
+  // Draw dome outline with template ropes
+  const baseY = H - 30, domeH = 280, domeW = 160;
+
+  machCtx.save();
+  machCtx.beginPath();
+  machCtx.moveTo(cx - domeW, baseY);
+  machCtx.bezierCurveTo(cx - domeW, baseY - domeH * 0.5, cx - domeW * 0.3, baseY - domeH * 0.94, cx, baseY - domeH);
+  machCtx.bezierCurveTo(cx + domeW * 0.3, baseY - domeH * 0.94, cx + domeW, baseY - domeH * 0.5, cx + domeW, baseY);
+  machCtx.strokeStyle = 'rgba(196,98,45,0.25)';
+  machCtx.lineWidth = 2;
+  machCtx.stroke();
+  machCtx.restore();
+
+  // Template rope from center
+  const pivotX = cx, pivotY = baseY;
+  const controlT = machT * 0.5 % (Math.PI * 2);
+  const templateAngle = Math.PI * 1.6 + Math.sin(controlT) * 0.3;
+  const ropeLen = 290;
+  const endX = pivotX + Math.cos(templateAngle) * ropeLen;
+  const endY = pivotY + Math.sin(templateAngle) * ropeLen;
+
+  machCtx.save();
+  machCtx.strokeStyle = 'rgba(201,153,58,0.8)';
+  machCtx.lineWidth = 2;
+  machCtx.setLineDash([6, 4]);
+  machCtx.beginPath();
+  machCtx.moveTo(pivotX, pivotY);
+  machCtx.lineTo(endX, endY);
+  machCtx.stroke();
+  machCtx.setLineDash([]);
+
+  // Pivot point
+  machCtx.beginPath();
+  machCtx.arc(pivotX, pivotY, 6, 0, Math.PI * 2);
+  machCtx.fillStyle = '#c9993a';
+  machCtx.fill();
+
+  // End marker (where bricklayer is)
+  machCtx.beginPath();
+  machCtx.arc(endX, endY, 5, 0, Math.PI * 2);
+  machCtx.fillStyle = '#e07840';
+  machCtx.fill();
+
+  machCtx.restore();
+
+  // Angle arc
+  machCtx.save();
+  machCtx.beginPath();
+  machCtx.arc(pivotX, pivotY, 40, Math.PI * 1.4, templateAngle);
+  machCtx.strokeStyle = 'rgba(196,98,45,0.5)';
+  machCtx.lineWidth = 1;
+  machCtx.stroke();
+  machCtx.restore();
+
+  machCtx.save();
+  machCtx.font = '12px "Cormorant Garamond", serif';
+  machCtx.fillStyle = 'rgba(201,153,58,0.8)';
+  machCtx.fillText('繩索模板系統 — 控制四心弧曲率', 20, 30);
+  machCtx.fillStyle = 'rgba(224,120,64,0.7)';
+  machCtx.fillText('● 工匠位置', endX + 8, endY - 5);
+  machCtx.restore();
+}
+
+function drawRestArea() {
+  const W = 520, H = 400;
+  const cx = W / 2;
+  const baseY = H - 20;
+
+  // Scaffolding
+  machCtx.strokeStyle = '#5a3a18';
+  machCtx.lineWidth = 3;
+  for (let x = 100; x <= W - 100; x += 50) {
+    machCtx.beginPath();
+    machCtx.moveTo(x, baseY - 20);
+    machCtx.lineTo(x, baseY - 200);
+    machCtx.stroke();
+  }
+  for (let y = 0; y <= 4; y++) {
+    machCtx.lineWidth = y === 2 ? 8 : 2;
+    machCtx.strokeStyle = y === 2 ? '#8a6030' : '#4a2a10';
+    machCtx.beginPath();
+    machCtx.moveTo(95, baseY - 20 - y * 45);
+    machCtx.lineTo(W - 95, baseY - 20 - y * 45);
+    machCtx.stroke();
+  }
+
+  // Rest platform (middle level)
+  machCtx.fillStyle = '#6a4020';
+  machCtx.fillRect(110, baseY - 115, 300, 10);
+
+  // Table and items
+  machCtx.fillStyle = '#8a5030';
+  machCtx.fillRect(170, baseY - 150, 60, 35);
+  machCtx.fillStyle = '#c09060';
+  machCtx.fillRect(175, baseY - 155, 12, 12);
+  machCtx.fillRect(195, baseY - 155, 12, 12);
+
+  // Worker figures
+  const bobY = Math.sin(machT * 1.5) * 2;
+  machCtx.save();
+  machCtx.fillStyle = '#b08060';
+  machCtx.beginPath();
+  machCtx.arc(250, baseY - 145 + bobY, 9, 0, Math.PI * 2);
+  machCtx.fill();
+  machCtx.fillRect(244, baseY - 136 + bobY, 12, 22);
+  machCtx.restore();
+
+  machCtx.save();
+  machCtx.fillStyle = '#a07050';
+  machCtx.beginPath();
+  machCtx.arc(290, baseY - 142 + bobY * 0.5, 9, 0, Math.PI * 2);
+  machCtx.fill();
+  machCtx.fillRect(284, baseY - 133 + bobY * 0.5, 12, 22);
+  machCtx.restore();
+
+  // Label
+  machCtx.save();
+  machCtx.font = '12px "Cormorant Garamond", serif';
+  machCtx.fillStyle = 'rgba(201,153,58,0.8)';
+  machCtx.fillText('高空餐廳 — 工匠於腳手架上用餐休息', 20, 30);
+  machCtx.fillStyle = 'rgba(196,98,45,0.5)';
+  machCtx.fillText('（避免每日往返耗費體力）', 60, 50);
+  machCtx.restore();
+
+  requestAnimationFrame(drawMachine);
+}
+
+drawMachine();
+
+// ════════════════════════════════════
+// PROCESS CANVAS
+// ════════════════════════════════════
+const procCtx = document.getElementById('processCanvas').getContext('2d');
+let procT = 0;
+let phase = 0;
+
+function setPhase(p) {
+  phase = p;
+  document.querySelectorAll('[id^="procBtn"]').forEach((b, i) => {
+    b.classList.toggle('active', i === p);
+  });
+}
+
+function drawProcess() {
+  const W = 700, H = 320;
+  procCtx.clearRect(0, 0, W, H);
+
+  const bg = procCtx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#0d0a08');
+  bg.addColorStop(1, '#1a1208');
+  procCtx.fillStyle = bg;
+  procCtx.fillRect(0, 0, W, H);
+
+  const cx = W / 2, baseY = H - 20;
+  const domeH = 200, domeW = 120;
+
+  // Phase 0: Drum only
+  if (phase >= 0) {
+    // Octagonal drum
+    const drumH = 60;
+    procCtx.fillStyle = '#3a2a18';
+    for (let i = 0; i < 8; i++) {
+      const a1 = (i / 8) * Math.PI * 2;
+      const a2 = ((i + 1) / 8) * Math.PI * 2;
+      const rx = 100, ry = 30;
+      const bH = drumH;
+      const x1 = cx + rx * Math.cos(a1), x2 = cx + rx * Math.cos(a2);
+      const y1 = baseY + ry * Math.sin(a1);
+      procCtx.fillStyle = i % 2 === 0 ? '#4a3020' : '#3a2018';
+      procCtx.fillRect(Math.min(x1,x2), baseY - bH, Math.abs(x2-x1) + 2, bH);
+    }
+    // Simple drum rect
+    procCtx.fillStyle = phase === 0 ? '#c4622d' : '#5a3a18';
+    const highlight0 = phase === 0 ? 1 : 0.4;
+    procCtx.globalAlpha = highlight0;
+    procCtx.fillRect(cx - domeW - 5, baseY - 55, (domeW + 5) * 2, 55);
+    procCtx.globalAlpha = 1;
+  }
+
+  // Phase 1+: Ribs
+  if (phase >= 1) {
+    for (let r = 0; r < 5; r++) {
+      const t = r / 4;
+      const ribX0 = cx - domeW + t * domeW * 1.8;
+      procCtx.save();
+      procCtx.beginPath();
+      procCtx.moveTo(ribX0, baseY - 55);
+      procCtx.bezierCurveTo(
+        ribX0 * 0.7 + cx * 0.3, baseY - 55 - domeH * 0.4,
+        cx * 0.9 + ribX0 * 0.1, baseY - 55 - domeH * 0.85,
+        cx, baseY - 55 - domeH
+      );
+      const ribAlpha = phase === 1 ? 0.9 + Math.sin(procT * 2 + r) * 0.1 : 0.6;
+      procCtx.strokeStyle = `rgba(200,160,70,${ribAlpha})`;
+      procCtx.lineWidth = phase === 1 ? 5 : 3;
+      procCtx.stroke();
+      procCtx.restore();
+    }
+  }
+
+  // Phase 2+: Shell
+  if (phase >= 2) {
+    const progress = phase === 2 ? 0.5 + Math.sin(procT * 0.5) * 0.15 : 1;
+    const shellH = domeH * progress;
+
+    procCtx.save();
+    procCtx.beginPath();
+    procCtx.moveTo(cx - domeW, baseY - 55);
+    procCtx.bezierCurveTo(
+      cx - domeW, baseY - 55 - shellH * 0.5,
+      cx - domeW * 0.3, baseY - 55 - shellH * 0.94,
+      cx, baseY - 55 - shellH
+    );
+    procCtx.lineTo(cx, baseY - 55);
+    procCtx.closePath();
+    const shellG = procCtx.createLinearGradient(cx - domeW, 0, cx, 0);
+    shellG.addColorStop(0, phase === 2 ? '#c4622d' : '#8a3e18');
+    shellG.addColorStop(1, phase === 2 ? '#8a3e18' : '#5a2010');
+    procCtx.fillStyle = shellG;
+    procCtx.fill();
+    procCtx.restore();
+
+    procCtx.save();
+    procCtx.beginPath();
+    procCtx.moveTo(cx + domeW, baseY - 55);
+    procCtx.bezierCurveTo(
+      cx + domeW, baseY - 55 - shellH * 0.5,
+      cx + domeW * 0.3, baseY - 55 - shellH * 0.94,
+      cx, baseY - 55 - shellH
+    );
+    procCtx.lineTo(cx, baseY - 55);
+    procCtx.closePath();
+    procCtx.fillStyle = phase === 2 ? 'rgba(196,98,45,0.4)' : 'rgba(138,62,24,0.4)';
+    procCtx.fill();
+    procCtx.restore();
+  }
+
+  // Phase 3+: Lantern opening
+  if (phase >= 3) {
+    const lantY = baseY - 55 - domeH - 5;
+    procCtx.fillStyle = phase === 3 ? '#d4c8b0' : '#b0a090';
+    procCtx.fillRect(cx - 18, lantY - 40, 36, 40);
+    procCtx.fillStyle = phase === 3 ? '#c8b888' : '#a09878';
+    procCtx.beginPath();
+    procCtx.moveTo(cx - 18, lantY - 40);
+    procCtx.lineTo(cx + 18, lantY - 40);
+    procCtx.lineTo(cx, lantY - 62);
+    procCtx.closePath();
+    procCtx.fill();
+
+    if (phase === 3) {
+      const glow3 = procCtx.createRadialGradient(cx, lantY - 50, 0, cx, lantY - 50, 50);
+      glow3.addColorStop(0, 'rgba(220,200,140,0.4)');
+      glow3.addColorStop(1, 'rgba(220,200,140,0)');
+      procCtx.fillStyle = glow3;
+      procCtx.fillRect(cx - 60, lantY - 100, 120, 100);
+    }
+  }
+
+  // Phase 4: Full + golden ball glow
+  if (phase === 4) {
+    const lantY = baseY - 55 - domeH - 67;
+    const glow4 = procCtx.createRadialGradient(cx, lantY, 0, cx, lantY, 40);
+    glow4.addColorStop(0, 'rgba(255,220,80,0.6)');
+    glow4.addColorStop(1, 'rgba(255,220,80,0)');
+    procCtx.fillStyle = glow4;
+    procCtx.fillRect(cx - 50, lantY - 40, 100, 80);
+
+    procCtx.beginPath();
+    procCtx.arc(cx, lantY, 8, 0, Math.PI * 2);
+    const ballG = procCtx.createRadialGradient(cx - 2, lantY - 2, 0, cx, lantY, 8);
+    ballG.addColorStop(0, '#ffe080');
+    ballG.addColorStop(1, '#c9993a');
+    procCtx.fillStyle = ballG;
+    procCtx.fill();
+
+    // Confetti sparks
+    for (let s = 0; s < 8; s++) {
+      const sa = (s / 8) * Math.PI * 2 + procT;
+      const sr = 20 + Math.sin(procT * 3 + s) * 8;
+      procCtx.beginPath();
+      procCtx.arc(cx + Math.cos(sa) * sr, lantY + Math.sin(sa) * sr, 2, 0, Math.PI * 2);
+      procCtx.fillStyle = `rgba(255,220,80,${0.4 + Math.sin(procT * 4 + s) * 0.3})`;
+      procCtx.fill();
+    }
+  }
+
+  // Phase label
+  const phaseLabels = ['① 鼓座砌築中...','② 8條大肋骨立架','③ 雙殼磚砌循環','④ 天窗封口','⑤ 金銅球封頂・完工！'];
+  procCtx.save();
+  procCtx.font = '13px "Cormorant Garamond", serif';
+  procCtx.fillStyle = 'rgba(196,98,45,0.8)';
+  procCtx.fillText(phaseLabels[phase], 16, 25);
+  procCtx.restore();
+
+  procT += 0.04;
+  requestAnimationFrame(drawProcess);
+}
+drawProcess();
+
+// ════════════════════════════════════
+// SCROLL REVEAL
+// ════════════════════════════════════
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => revealObs.observe(el));
+
+// Century timeline
+function setCentury(el) {
+  document.querySelectorAll('.century-item').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>萬神殿 — 穹頂工藝</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=Noto+Serif+TC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: #7a5e28;
+    --stone: #2a2318;
+    --stone-mid: #3d3020;
+    --stone-light: #5c4a2a;
+    --cream: #f0e6cc;
+    --cream-dim: #c4b08a;
+    --sky: #7bb5d4;
+    --sky-deep: #3a7fa8;
+    --tuff: #8b7355;
+    --pumice: #c4bdb0;
+    --ash: #9e9488;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--stone);
+    color: var(--cream);
+    font-family: 'Noto Serif TC', serif;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 60%, #1a1208 0%, #0d0a05 100%);
+  }
+
+  .hero-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(201,168,76,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 15%, rgba(201,168,76,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 45% 70%, rgba(201,168,76,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 50%, rgba(201,168,76,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 80%, rgba(201,168,76,0.25) 0%, transparent 100%);
+  }
+
+  .pantheon-svg-hero {
+    width: min(520px, 90vw);
+    margin-bottom: 2rem;
+    animation: heroFadeIn 2s ease-out forwards;
+    opacity: 0;
+    filter: drop-shadow(0 0 40px rgba(201,168,76,0.3));
+  }
+
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-align: center;
+    animation: heroFadeIn 2s 0.4s ease-out forwards;
+    opacity: 0;
+    text-shadow: 0 0 60px rgba(201,168,76,0.5);
+  }
+
+  .hero-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    letter-spacing: 0.4em;
+    color: var(--cream-dim);
+    margin-top: 0.8rem;
+    text-transform: uppercase;
+    animation: heroFadeIn 2s 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    animation: heroFadeIn 2s 1.5s ease-out forwards;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .scroll-cue span {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+  .scroll-arrow {
+    width: 20px; height: 20px;
+    border-right: 2px solid var(--gold-dim);
+    border-bottom: 2px solid var(--gold-dim);
+    transform: rotate(45deg);
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100% { transform: rotate(45deg) translateY(0); }
+    50% { transform: rotate(45deg) translateY(6px); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,10,5,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gold-dim);
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 3vw, 3rem);
+    padding: 1rem 1.5rem;
+    flex-wrap: wrap;
+  }
+  nav a {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--cream-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+  nav a:hover { color: var(--gold); }
+
+  /* ── SECTIONS ── */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  h2 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    color: var(--gold);
+    line-height: 1.3;
+    margin-bottom: 1.8rem;
+  }
+
+  .divider {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.5rem 0;
+  }
+
+  p { line-height: 1.9; color: var(--cream-dim); font-weight: 300; font-size: 1.05rem; }
+
+  /* ── DOME CROSS-SECTION INTERACTIVE ── */
+  #dome-section { background: linear-gradient(180deg, var(--stone) 0%, #1a1208 100%); }
+
+  .dome-canvas-wrap {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 3rem 0;
+  }
+
+  #domeCanvas {
+    border-radius: 8px;
+    cursor: crosshair;
+    max-width: 100%;
+  }
+
+  .dome-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .legend-item:hover, .legend-item.active {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.07);
+  }
+  .legend-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .legend-item span {
+    font-size: 0.85rem;
+    color: var(--cream-dim);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── AGGREGATE LAYERS ── */
+  #aggregate-section {
+    background: radial-gradient(ellipse at 30% 50%, #1e1609 0%, var(--stone) 70%);
+  }
+
+  .layer-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 3rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .layer {
+    display: flex;
+    align-items: center;
+    padding: 1.2rem 1.8rem;
+    gap: 1.5rem;
+    cursor: pointer;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .layer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s;
+    background: rgba(201,168,76,0.08);
+  }
+  .layer:hover::before, .layer.expanded::before { opacity: 1; }
+
+  .layer-tuff { background: linear-gradient(90deg, #5c432a, #4a3520); }
+  .layer-mix { background: linear-gradient(90deg, #3d3228, #322a20); }
+  .layer-pumice { background: linear-gradient(90deg, #4a4540, #3d3830); }
+
+  .layer-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .layer-info { flex: 1; }
+  .layer-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 0.2rem;
+  }
+  .layer-desc {
+    font-size: 0.82rem;
+    color: var(--cream-dim);
+    line-height: 1.5;
+  }
+
+  .layer-weight {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem;
+    color: var(--gold-light);
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .layer-weight small {
+    display: block;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 0.65rem;
+    color: var(--gold-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .layer-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+    background: rgba(0,0,0,0.3);
+    padding: 0 1.8rem;
+  }
+  .layer-detail.open {
+    max-height: 200px;
+    padding: 1rem 1.8rem;
+  }
+  .layer-detail p { font-size: 0.85rem; }
+
+  /* ── CONSTRUCTION TIMELINE ── */
+  #timeline-section { background: var(--stone); }
+
+  .timeline {
+    position: relative;
+    margin: 3rem 0;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 32px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--gold-dim), transparent);
+  }
+
+  .timeline-step {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease;
+  }
+  .timeline-step.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .step-num {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid var(--gold-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    background: var(--stone);
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s;
+  }
+  .timeline-step:hover .step-num {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+
+  .step-content { padding-top: 0.6rem; }
+  .step-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── OCULUS ANIMATION ── */
+  #oculus-section {
+    background: radial-gradient(ellipse at 50% 0%, #0d1a2a 0%, var(--stone) 60%);
+  }
+
+  .oculus-demo {
+    position: relative;
+    width: min(480px, 100%);
+    margin: 3rem auto;
+    aspect-ratio: 1;
+  }
+
+  #oculusCanvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: block;
+    cursor: pointer;
+  }
+
+  .oculus-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .oculus-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--cream-dim);
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+  .oculus-btn:hover, .oculus-btn.active {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+  }
+
+  .oculus-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+    margin-top: 2.5rem;
+  }
+  .fact-card {
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 1.2rem;
+    border-radius: 4px;
+    background: rgba(0,0,0,0.2);
+  }
+  .fact-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .fact-label {
+    font-size: 0.8rem;
+    color: var(--cream-dim);
+    margin-top: 0.4rem;
+    line-height: 1.5;
+  }
+
+  /* ── SPHERE PROPORTION ── */
+  #sphere-section {
+    background: radial-gradient(ellipse at 70% 50%, #121008 0%, var(--stone) 60%);
+  }
+
+  .sphere-viz {
+    display: flex;
+    justify-content: center;
+    margin: 3rem 0;
+  }
+
+  #sphereCanvas { max-width: 100%; }
+
+  /* ── CONCRETE SELF-HEAL ── */
+  #concrete-section { background: var(--stone); }
+
+  .heal-animation {
+    display: flex;
+    justify-content: center;
+    margin: 3rem 0;
+  }
+  #healCanvas { max-width: 100%; border-radius: 8px; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+  }
+
+  /* ── TOOLTIP ── */
+  .tooltip {
+    position: fixed;
+    background: rgba(13,10,5,0.95);
+    border: 1px solid var(--gold-dim);
+    color: var(--cream);
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 999;
+    max-width: 200px;
+    line-height: 1.5;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-stars"></div>
+  <svg class="pantheon-svg-hero" viewBox="0 0 520 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Dome silhouette -->
+    <path d="M60 200 Q260 20 460 200" stroke="#c9a84c" stroke-width="2.5" fill="none" opacity="0.9"/>
+    <path d="M60 200 Q260 20 460 200 L460 220 Q260 240 60 220 Z" fill="#2a2318" stroke="#7a5e28" stroke-width="1"/>
+    <!-- Oculus -->
+    <ellipse cx="260" cy="100" rx="22" ry="8" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.8"/>
+    <ellipse cx="260" cy="100" rx="14" ry="5" fill="#7bb5d4" opacity="0.4"/>
+    <!-- Columns -->
+    <rect x="100" y="200" width="10" height="50" fill="#5c4a2a" rx="1"/>
+    <rect x="130" y="200" width="10" height="50" fill="#5c4a2a" rx="1"/>
+    <rect x="160" y="200" width="10" height="50" fill="#5c4a2a" rx="1"/>
+    <rect x="350" y="200" width="10" height="50" fill="#5c4a2a" rx="1"/>
+    <rect x="380" y="200" width="10" height="50" fill="#5c4a2a" rx="1"/>
+    <rect x="410" y="200" width="10" height="50" fill="#5c4a2a" rx="1"/>
+    <!-- Base -->
+    <rect x="60" y="248" width="400" height="12" fill="#3d3020" rx="1"/>
+    <rect x="40" y="258" width="440" height="10" fill="#2a2318" rx="1"/>
+    <!-- Coffering hints -->
+    <path d="M160 160 Q200 130 240 120" stroke="#7a5e28" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M180 175 Q220 145 260 135" stroke="#7a5e28" stroke-width="1" fill="none" opacity="0.4"/>
+    <path d="M360 160 Q320 130 280 120" stroke="#7a5e28" stroke-width="1" fill="none" opacity="0.5"/>
+    <!-- Light beam from oculus -->
+    <line x1="253" y1="103" x2="200" y2="200" stroke="#e8c97a" stroke-width="1" opacity="0.3"/>
+    <line x1="260" y1="105" x2="260" y2="210" stroke="#e8c97a" stroke-width="1.5" opacity="0.4"/>
+    <line x1="267" y1="103" x2="320" y2="200" stroke="#e8c97a" stroke-width="1" opacity="0.3"/>
+  </svg>
+  <h1 class="hero-title">萬神殿</h1>
+  <p class="hero-sub">穹頂工藝 · 羅馬永恆之謎</p>
+  <div class="scroll-cue" onclick="document.querySelector('nav').scrollIntoView()">
+    <span>探索</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#dome-section">穹頂結構</a>
+  <a href="#aggregate-section">漸層骨料</a>
+  <a href="#timeline-section">建造工序</a>
+  <a href="#oculus-section">天窗奧義</a>
+  <a href="#sphere-section">完美比例</a>
+  <a href="#concrete-section">自癒混凝土</a>
+</nav>
+
+<!-- 1. DOME CROSS-SECTION -->
+<div id="dome-section">
+<section>
+  <p class="section-label">Section 01</p>
+  <h2>穹頂剖面 — 由厚至薄的力學智慧</h2>
+  <div class="divider"></div>
+  <p>穹頂底部厚達 <strong style="color:var(--gold)">5.9–6.4 公尺</strong>，頂部漸薄至僅 <strong style="color:var(--gold)">1.2–1.5 公尺</strong>。懸停各區域查看詳情。</p>
+
+  <div class="dome-canvas-wrap">
+    <canvas id="domeCanvas" width="700" height="420"></canvas>
+  </div>
+
+  <div class="dome-legend">
+    <div class="legend-item" data-zone="base" onclick="highlightZone('base')">
+      <div class="legend-dot" style="background:#8b6340"></div>
+      <span>基礎牆體 (凝灰岩)</span>
+    </div>
+    <div class="legend-item" data-zone="mid" onclick="highlightZone('mid')">
+      <div class="legend-dot" style="background:#7a7060"></div>
+      <span>中段 (混合骨料)</span>
+    </div>
+    <div class="legend-item" data-zone="top" onclick="highlightZone('top')">
+      <div class="legend-dot" style="background:#b0a898"></div>
+      <span>頂部 (浮石)</span>
+    </div>
+    <div class="legend-item" data-zone="coffer" onclick="highlightZone('coffer')">
+      <div class="legend-dot" style="background:#c9a84c"></div>
+      <span>藻井 (減重格)</span>
+    </div>
+    <div class="legend-item" data-zone="oculus" onclick="highlightZone('oculus')">
+      <div class="legend-dot" style="background:#7bb5d4"></div>
+      <span>天眼 (Oculus)</span>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- 2. AGGREGATE LAYERS -->
+<div id="aggregate-section">
+<section>
+  <p class="section-label">Section 02</p>
+  <h2>漸層骨料 — 重量減輕 80% 的秘密</h2>
+  <div class="divider"></div>
+  <p>羅馬工匠以天才般的直覺，由下而上選用密度遞減的骨料，底部承壓最大用最重材料，頂部接近天窗用最輕。點擊各層了解詳情。</p>
+
+  <div class="layer-stack">
+    <div class="layer layer-tuff" onclick="toggleLayer(this)">
+      <div class="layer-icon">🪨</div>
+      <div class="layer-info">
+        <div class="layer-name">底部 — 凝灰岩 Tuff</div>
+        <div class="layer-desc">最密實的火山岩，提供最大結構強度</div>
+      </div>
+      <div class="layer-weight">2,400<small>kg/m³</small></div>
+    </div>
+    <div class="layer-detail">
+      <p>凝灰岩是壓縮火山灰形成的岩石，密度高，抗壓強度佳。用於穹頂底部 0–1/3 高度區間，支撐整個穹頂的側向推力，與厚達 6 公尺的牆體協同工作。</p>
+    </div>
+
+    <div class="layer layer-mix" onclick="toggleLayer(this)">
+      <div class="layer-icon">🌋</div>
+      <div class="layer-info">
+        <div class="layer-name">中段 — 火山灰混合 Pozzolana Mix</div>
+        <div class="layer-desc">凝灰岩 + 磚粉 + 火山灰，過渡帶</div>
+      </div>
+      <div class="layer-weight">1,800<small>kg/m³</small></div>
+    </div>
+    <div class="layer-detail">
+      <p>中段過渡帶混合了不同密度的材料，形成力學上的漸變緩衝。火山灰（Pozzolana）與石灰水反應後形成極強的水硬性膠凝材料，是羅馬混凝土強度的核心來源。</p>
+    </div>
+
+    <div class="layer layer-pumice" onclick="toggleLayer(this)">
+      <div class="layer-icon">☁️</div>
+      <div class="layer-info">
+        <div class="layer-name">頂部 — 浮石 Pumice</div>
+        <div class="layer-desc">多孔火山岩，極輕，天窗附近使用</div>
+      </div>
+      <div class="layer-weight">480<small>kg/m³</small></div>
+    </div>
+    <div class="layer-detail">
+      <p>浮石是熔岩急速冷卻形成的多孔岩石，密度僅凝灰岩的 20%，卻仍有足夠的結合強度。在穹頂最高處使用浮石，大幅減低頂部自重，降低對整個結構的側推壓力。</p>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 2rem;">
+    <canvas id="weightChart" width="600" height="180" style="max-width:100%;"></canvas>
+  </div>
+</section>
+</div>
+
+<!-- 3. CONSTRUCTION TIMELINE -->
+<div id="timeline-section">
+<section>
+  <p class="section-label">Section 03</p>
+  <h2>建造工序 — 木模支撐的奇蹟</h2>
+  <div class="divider"></div>
+  <p>現代學者估計萬神殿穹頂建造耗時約 <strong style="color:var(--gold)">5–10 年</strong>，依賴龐大的木質模板體系支撐澆注過程。</p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="step-num">Ⅰ</div>
+      <div class="step-content">
+        <div class="step-title">地基與圓形牆體</div>
+        <p>先挖掘直徑約 55 公尺的圓形基礎，澆注 4.5 公尺深的圓環形混凝土基礎。然後砌築厚達 6 公尺的圓形牆體，此牆同時作為穹頂基礎和內部拱廊。牆體內部有 8 個大型壁龕（alternating rectangular and semicircular），減輕重量同時增加空間層次。</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-num">Ⅱ</div>
+      <div class="step-content">
+        <div class="step-title">木質模板搭建</div>
+        <p>搭建巨型木質穹形模板——由無數木材拼接成半球形框架，這是整個工程最複雜的部分。模板須精確呈現 43.3 公尺直徑的球面曲率，並能承受濕混凝土的巨大重量。估計木材用量相當於一片小型森林。</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-num">Ⅲ</div>
+      <div class="step-content">
+        <div class="step-title">分層澆注混凝土</div>
+        <p>混凝土從底部開始分層澆注，每層約 30–60 公分，等待初步凝固後再澆下一層。骨料依高度調換——底部用凝灰岩、中段混合、上部用浮石。每層骨料以手工埋入混凝土漿中（opus incertum 工法），工人從腳手架上逐層作業。</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-num">Ⅳ</div>
+      <div class="step-content">
+        <div class="step-title">藻井格 (Coffering) 塑形</div>
+        <p>穹頂內壁的 5 圈 × 28 格藻井（共 140 格）並非事後雕刻，而是在澆注時以木製模具預留空腔。每個藻井由內至外逐步縮小，既是裝飾元素，更可減輕穹頂重量達 15%，同時產生視覺透視感，讓穹頂看起來更高。</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-num">Ⅴ</div>
+      <div class="step-content">
+        <div class="step-title">天眼收口 (Oculus)</div>
+        <p>最後在頂部留出直徑 8.9 公尺的圓形開口，以青銅環框收邊。此環也是整個穹頂的「壓縮環」——穹頂的推力最終都匯聚於此，形成自我穩定的拱形力學。</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-num">Ⅵ</div>
+      <div class="step-content">
+        <div class="step-title">拆模 · 穹頂自立</div>
+        <p>混凝土完全固化（約 6–12 個月）後，木模板從中心向外逐步拆除。這是最驚險的時刻——穹頂第一次依靠自身結構支撐。羅馬火山灰混凝土在有水環境中會繼續反應增強，兩千年後強度甚至超過初建時。</p>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- 4. OCULUS -->
+<div id="oculus-section">
+<section>
+  <p class="section-label">Section 04</p>
+  <h2>天眼 — 光、雨、與宇宙的接口</h2>
+  <div class="divider"></div>
+  <p>直徑 8.9 公尺的天眼是萬神殿唯一的自然光源，也是整個穹頂結構的力學關鍵。點擊按鈕切換光影效果。</p>
+
+  <div class="oculus-demo">
+    <canvas id="oculusCanvas" width="480" height="480"></canvas>
+  </div>
+
+  <div class="oculus-controls">
+    <button class="oculus-btn active" onclick="setOculusMode('morning')">清晨</button>
+    <button class="oculus-btn" onclick="setOculusMode('noon')">正午</button>
+    <button class="oculus-btn" onclick="setOculusMode('afternoon')">午後</button>
+    <button class="oculus-btn" onclick="setOculusMode('rain')">🌧 雨天</button>
+  </div>
+
+  <div class="oculus-facts">
+    <div class="fact-card">
+      <div class="fact-num">8.9m</div>
+      <div class="fact-label">天眼直徑，相當於一棟 3 層樓高的空洞</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-num">無玻璃</div>
+      <div class="fact-label">完全開放，雨雪直接落入，地板排水系統完全處理</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-num">壓縮環</div>
+      <div class="fact-label">青銅框圍收束穹頂所有側向推力，是力學閉合點</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-num">光之鐘</div>
+      <div class="fact-label">光柱如時針，每天在內部移動，古羅馬人視為天人溝通</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- 5. PERFECT SPHERE -->
+<div id="sphere-section">
+<section>
+  <p class="section-label">Section 05</p>
+  <h2>完美球體 — 幾何的宇宙觀</h2>
+  <div class="divider"></div>
+  <p>萬神殿最深刻的設計意圖：室內淨高 <strong style="color:var(--gold)">43.3 公尺</strong> 恰好等於穹頂直徑 <strong style="color:var(--gold)">43.3 公尺</strong>，若放入一個完美球體，球體底部恰好切地。</p>
+
+  <div class="sphere-viz">
+    <canvas id="sphereCanvas" width="500" height="420"></canvas>
+  </div>
+</section>
+</div>
+
+<!-- 6. SELF-HEALING CONCRETE -->
+<div id="concrete-section">
+<section>
+  <p class="section-label">Section 06</p>
+  <h2>自癒混凝土 — 兩千年不倒的秘密</h2>
+  <div class="divider"></div>
+  <p>羅馬火山灰混凝土（Opus Caementicium）與現代混凝土最大不同，在於其與海水或雨水接觸後，能生成新礦物晶體填補裂縫——天然的自我修復能力。</p>
+
+  <div class="heal-animation">
+    <canvas id="healCanvas" width="640" height="300"></canvas>
+  </div>
+
+  <div class="dome-legend" style="margin-top:0;">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#c9a84c"></div>
+      <span>火山灰 (Pozzolana)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#e8e8d0"></div>
+      <span>石灰石骨料</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#7bb5d4"></div>
+      <span>水分滲入</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#a8d4a8"></div>
+      <span>托貝莫萊石晶體 (自癒)</span>
+    </div>
+  </div>
+</section>
+</div>
+
+<footer>PANTHEON · ROMA · 125 AD · 永恆之城 · AETERNA</footer>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ─── DOME CANVAS ───
+const domeCanvas = document.getElementById('domeCanvas');
+const domeCtx = domeCanvas.getContext('2d');
+let activeZone = null;
+
+const zones = {
+  base: { label: '基礎牆體', desc: '厚度 5.9–6.4m，凝灰岩混凝土，承受最大側向推力' },
+  mid:  { label: '中段穹壁', desc: '厚度漸減至 3m，混合骨料過渡帶' },
+  top:  { label: '頂部薄殼', desc: '厚度 1.2–1.5m，浮石混凝土，重量最輕' },
+  coffer: { label: '藻井凹格', desc: '5圈×28格，預留空腔減重約15%' },
+  oculus: { label: 'Oculus 天眼', desc: '直徑8.9m，青銅框收口，力學壓縮環' }
+};
+
+function drawDome(highlight) {
+  const W = domeCanvas.width, H = domeCanvas.height;
+  const cx = W / 2, cy = H - 60;
+  const R = 230;
+  domeCtx.clearRect(0, 0, W, H);
+
+  // Background
+  const bg = domeCtx.createRadialGradient(cx, cy - 100, 0, cx, cy, 400);
+  bg.addColorStop(0, '#1a1208');
+  bg.addColorStop(1, '#0d0a05');
+  domeCtx.fillStyle = bg;
+  domeCtx.fillRect(0, 0, W, H);
+
+  // Draw dome layers
+  const layers = [
+    { r: R, thick: 90, color: highlight === 'base' ? '#c9943a' : '#8b6340', zone: 'base' },
+    { r: R - 30, thick: 55, color: highlight === 'mid' ? '#b0a060' : '#7a7060', zone: 'mid' },
+    { r: R - 65, thick: 20, color: highlight === 'top' ? '#d4c8b0' : '#b0a898', zone: 'top' },
+  ];
+
+  // Draw cross-section outline
+  domeCtx.save();
+  domeCtx.strokeStyle = '#c9a84c';
+  domeCtx.lineWidth = 1;
+  domeCtx.setLineDash([4, 4]);
+  domeCtx.beginPath();
+  domeCtx.moveTo(cx, cy - R);
+  domeCtx.lineTo(cx, cy + 10);
+  domeCtx.stroke();
+  domeCtx.setLineDash([]);
+  domeCtx.restore();
+
+  // Outer wall
+  domeCtx.save();
+  domeCtx.beginPath();
+  domeCtx.arc(cx, cy, R, Math.PI, 0);
+  domeCtx.lineTo(cx + R, cy + 10);
+  domeCtx.lineTo(cx - R, cy + 10);
+  domeCtx.closePath();
+  const wallGrad = domeCtx.createLinearGradient(cx - R, 0, cx + R, 0);
+  wallGrad.addColorStop(0, highlight === 'base' ? '#c9943a' : '#7a5c38');
+  wallGrad.addColorStop(0.5, highlight === 'base' ? '#e0ae5a' : '#9a7848');
+  wallGrad.addColorStop(1, highlight === 'base' ? '#c9943a' : '#7a5c38');
+  domeCtx.fillStyle = wallGrad;
+  domeCtx.fill();
+  domeCtx.strokeStyle = '#c9a84c44';
+  domeCtx.lineWidth = 1;
+  domeCtx.stroke();
+  domeCtx.restore();
+
+  // Inner dome (cavity)
+  const innerR = R - 90;
+  domeCtx.save();
+  domeCtx.beginPath();
+  domeCtx.arc(cx, cy, innerR, Math.PI, 0);
+  domeCtx.lineTo(cx + innerR, cy);
+  domeCtx.lineTo(cx - innerR, cy);
+  const innerGrad = domeCtx.createRadialGradient(cx, cy - innerR / 2, 10, cx, cy, innerR);
+  innerGrad.addColorStop(0, '#1a2a3a');
+  innerGrad.addColorStop(0.6, '#0f1820');
+  innerGrad.addColorStop(1, '#0a0d12');
+  domeCtx.fillStyle = innerGrad;
+  domeCtx.fill();
+  domeCtx.restore();
+
+  // Draw coffering
+  for (let ring = 0; ring < 5; ring++) {
+    const angleStep = (Math.PI) / 28;
+    const ringR = innerR - ring * 15;
+    for (let i = 1; i < 27; i++) {
+      const a = Math.PI - i * angleStep;
+      const x1 = cx + ringR * Math.cos(a);
+      const y1 = cy + ringR * Math.sin(a);
+      const x2 = cx + (ringR - 12) * Math.cos(a);
+      const y2 = cy + (ringR - 12) * Math.sin(a);
+      domeCtx.save();
+      domeCtx.strokeStyle = highlight === 'coffer' ? '#e8c97a' : '#c9a84c44';
+      domeCtx.lineWidth = highlight === 'coffer' ? 2 : 0.8;
+      domeCtx.beginPath();
+      domeCtx.moveTo(x1, y1);
+      domeCtx.lineTo(x2, y2);
+      domeCtx.stroke();
+      domeCtx.restore();
+    }
+    if (highlight === 'coffer') {
+      domeCtx.save();
+      domeCtx.beginPath();
+      domeCtx.arc(cx, cy, ringR - 6, Math.PI, 0);
+      domeCtx.strokeStyle = 'rgba(232,201,122,0.3)';
+      domeCtx.lineWidth = 1;
+      domeCtx.stroke();
+      domeCtx.restore();
+    }
+  }
+
+  // Oculus
+  const oy = cy - innerR + 5;
+  domeCtx.save();
+  domeCtx.beginPath();
+  domeCtx.ellipse(cx, oy, 36, 12, 0, 0, Math.PI * 2);
+  const skyGrad = domeCtx.createRadialGradient(cx, oy, 0, cx, oy, 36);
+  skyGrad.addColorStop(0, highlight === 'oculus' ? '#aaddff' : '#7bb5d4');
+  skyGrad.addColorStop(1, highlight === 'oculus' ? '#7bb5d4' : '#3a7fa8');
+  domeCtx.fillStyle = skyGrad;
+  domeCtx.fill();
+  domeCtx.strokeStyle = highlight === 'oculus' ? '#fff' : '#c9a84c';
+  domeCtx.lineWidth = 2;
+  domeCtx.stroke();
+  domeCtx.restore();
+
+  // Oculus light beam
+  if (highlight === 'oculus' || !highlight) {
+    domeCtx.save();
+    const beamGrad = domeCtx.createLinearGradient(cx, oy, cx + 60, cy - 20);
+    beamGrad.addColorStop(0, 'rgba(200,220,255,0.25)');
+    beamGrad.addColorStop(1, 'rgba(200,220,255,0)');
+    domeCtx.fillStyle = beamGrad;
+    domeCtx.beginPath();
+    domeCtx.moveTo(cx - 20, oy + 8);
+    domeCtx.lineTo(cx + 20, oy + 8);
+    domeCtx.lineTo(cx + 80, cy - 20);
+    domeCtx.lineTo(cx + 40, cy - 20);
+    domeCtx.closePath();
+    domeCtx.fill();
+    domeCtx.restore();
+  }
+
+  // Dimension labels
+  domeCtx.save();
+  domeCtx.font = '11px "Cinzel", serif';
+  domeCtx.fillStyle = '#c9a84c';
+
+  // Diameter arrow
+  domeCtx.beginPath();
+  domeCtx.moveTo(cx - R + 5, cy + 30);
+  domeCtx.lineTo(cx + R - 5, cy + 30);
+  domeCtx.strokeStyle = '#c9a84c88';
+  domeCtx.lineWidth = 1;
+  domeCtx.stroke();
+  domeCtx.fillText('← 43.3m →', cx - 28, cy + 27);
+
+  // Height arrow
+  domeCtx.beginPath();
+  domeCtx.moveTo(cx + R + 15, cy);
+  domeCtx.lineTo(cx + R + 15, cy - R);
+  domeCtx.stroke();
+  domeCtx.fillText('43.3m', cx + R + 18, cy - R / 2);
+
+  // Thickness labels
+  if (highlight === 'base') {
+    domeCtx.fillStyle = '#e8c97a';
+    domeCtx.fillText('厚 6m', cx - R + 30, cy - 20);
+  }
+  if (highlight === 'top') {
+    domeCtx.fillStyle = '#e8c97a';
+    domeCtx.fillText('厚 1.2m', cx - 20, cy - R + 30);
+  }
+  domeCtx.restore();
+}
+
+function highlightZone(zone) {
+  activeZone = activeZone === zone ? null : zone;
+  document.querySelectorAll('.legend-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.zone === activeZone);
+  });
+  drawDome(activeZone);
+}
+
+drawDome(null);
+
+// ─── WEIGHT CHART ───
+const wCtx = document.getElementById('weightChart').getContext('2d');
+function drawWeightChart() {
+  const W = 600, H = 180;
+  wCtx.clearRect(0, 0, W, H);
+  const bg = wCtx.createLinearGradient(0, 0, W, 0);
+  bg.addColorStop(0, '#1a1208');
+  bg.addColorStop(1, '#0d0a05');
+  wCtx.fillStyle = bg;
+  wCtx.fillRect(0, 0, W, H);
+
+  const data = [
+    { label: '凝灰岩', val: 2400, color: '#8b6340' },
+    { label: '混合', val: 1800, color: '#7a7060' },
+    { label: '浮石', val: 480, color: '#b0a898' },
+  ];
+  const max = 2400;
+  const barH = 36, gap = 18, startY = 20, startX = 80;
+
+  data.forEach((d, i) => {
+    const y = startY + i * (barH + gap);
+    const barW = (d.val / max) * (W - startX - 120);
+    wCtx.fillStyle = d.color;
+    wCtx.fillRect(startX, y, barW, barH);
+    wCtx.fillStyle = '#c9a84c';
+    wCtx.font = '12px "Cinzel", serif';
+    wCtx.fillText(d.label, 4, y + barH / 2 + 4);
+    wCtx.fillStyle = '#e8c97a';
+    wCtx.font = '11px "Noto Serif TC", serif';
+    wCtx.fillText(d.val + ' kg/m³', startX + barW + 8, y + barH / 2 + 4);
+  });
+
+  wCtx.fillStyle = '#c9a84c88';
+  wCtx.font = '10px "Cinzel", serif';
+  wCtx.fillText('→ 密度比較 (kg/m³)', startX, H - 8);
+}
+drawWeightChart();
+
+// ─── LAYER TOGGLE ───
+function toggleLayer(el) {
+  const detail = el.nextElementSibling;
+  const isOpen = detail.classList.contains('open');
+  document.querySelectorAll('.layer-detail').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.layer').forEach(l => l.classList.remove('expanded'));
+  if (!isOpen) {
+    detail.classList.add('open');
+    el.classList.add('expanded');
+  }
+}
+
+// ─── TIMELINE INTERSECTION ───
+const timelineSteps = document.querySelectorAll('.timeline-step');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 150);
+    }
+  });
+}, { threshold: 0.2 });
+timelineSteps.forEach(s => observer.observe(s));
+
+// ─── OCULUS CANVAS ───
+const oc = document.getElementById('oculusCanvas');
+const octx = oc.getContext('2d');
+let oculusMode = 'morning';
+let oculusAngle = 0;
+let rainDrops = [];
+
+function setOculusMode(mode) {
+  oculusMode = mode;
+  document.querySelectorAll('.oculus-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  if (mode === 'rain') {
+    rainDrops = Array.from({length: 60}, () => ({
+      x: Math.random() * 480,
+      y: Math.random() * 480,
+      speed: 2 + Math.random() * 3,
+      len: 8 + Math.random() * 12,
+    }));
+  }
+}
+
+const lightAngles = { morning: -0.8, noon: 0, afternoon: 0.6, rain: 0 };
+
+function drawOculus() {
+  const W = 480, H = 480, cx = W / 2, cy = H / 2;
+  octx.clearRect(0, 0, W, H);
+
+  // Room bg
+  const roomBg = octx.createRadialGradient(cx, cy, 30, cx, cy, 240);
+  if (oculusMode === 'rain') {
+    roomBg.addColorStop(0, '#1a2028');
+    roomBg.addColorStop(1, '#0a0d12');
+  } else if (oculusMode === 'noon') {
+    roomBg.addColorStop(0, '#2a2010');
+    roomBg.addColorStop(1, '#0d0a05');
+  } else {
+    roomBg.addColorStop(0, '#1a1510');
+    roomBg.addColorStop(1, '#0a0805');
+  }
+  octx.fillStyle = roomBg;
+  octx.fillRect(0, 0, W, H);
+
+  // Dome interior sketch
+  octx.save();
+  octx.strokeStyle = 'rgba(201,168,76,0.15)';
+  octx.lineWidth = 1;
+  for (let i = 0; i < 6; i++) {
+    const r = 60 + i * 35;
+    octx.beginPath();
+    octx.arc(cx, cy, r, 0, Math.PI * 2);
+    octx.stroke();
+  }
+  octx.restore();
+
+  // Light shaft
+  if (oculusMode !== 'rain') {
+    const angle = lightAngles[oculusMode];
+    const beamLength = 340;
+    const beamX = cx + Math.sin(angle) * 44;
+    const beamY = cy - 44;
+    const lightColor = oculusMode === 'noon' ? 'rgba(255,240,200,' : 'rgba(255,220,150,';
+
+    octx.save();
+    const beam = octx.createConicalGradient ? null : (() => {
+      const g = octx.createLinearGradient(beamX, beamY, beamX + Math.sin(angle) * beamLength, beamY + beamLength);
+      g.addColorStop(0, lightColor + '0.6)');
+      g.addColorStop(0.3, lightColor + '0.2)');
+      g.addColorStop(1, lightColor + '0)');
+      return g;
+    })();
+    octx.fillStyle = beam;
+    octx.beginPath();
+    const spread = 30 + Math.abs(angle) * 20;
+    octx.moveTo(beamX - 20, beamY);
+    octx.lineTo(beamX + 20, beamY);
+    octx.lineTo(beamX + Math.sin(angle) * beamLength + spread, beamY + beamLength);
+    octx.lineTo(beamX + Math.sin(angle) * beamLength - spread, beamY + beamLength);
+    octx.closePath();
+    octx.fill();
+    octx.restore();
+
+    // Light spot on floor/wall
+    octx.save();
+    const spotX = cx + Math.sin(angle) * 180;
+    const spotY = cy + 120;
+    const spotG = octx.createRadialGradient(spotX, spotY, 0, spotX, spotY, 60);
+    spotG.addColorStop(0, lightColor + '0.5)');
+    spotG.addColorStop(1, lightColor + '0)');
+    octx.fillStyle = spotG;
+    octx.ellipse(spotX, spotY, 60, 25, angle * 0.3, 0, Math.PI * 2);
+    octx.fill();
+    octx.restore();
+  }
+
+  // Rain drops
+  if (oculusMode === 'rain') {
+    rainDrops.forEach(drop => {
+      octx.save();
+      octx.strokeStyle = 'rgba(150,200,255,0.6)';
+      octx.lineWidth = 1;
+      octx.beginPath();
+      octx.moveTo(drop.x, drop.y);
+      octx.lineTo(drop.x - 1, drop.y + drop.len);
+      octx.stroke();
+      octx.restore();
+      drop.y += drop.speed;
+      if (drop.y > 480) {
+        drop.y = -20;
+        drop.x = Math.random() * 480;
+      }
+    });
+
+    // Splash ripples at center
+    octx.save();
+    const rTime = Date.now() * 0.003;
+    for (let i = 0; i < 3; i++) {
+      const phase = (rTime + i * 1.2) % 3;
+      const r = phase * 25;
+      octx.beginPath();
+      octx.arc(cx + (Math.random() * 20 - 10), cy + 80, r, 0, Math.PI * 2);
+      octx.strokeStyle = `rgba(150,200,255,${0.4 - phase * 0.13})`;
+      octx.lineWidth = 1;
+      octx.stroke();
+    }
+    octx.restore();
+  }
+
+  // Oculus opening
+  const oculusGrad = octx.createRadialGradient(cx, cy - 44, 0, cx, cy - 44, 44);
+  if (oculusMode === 'rain') {
+    oculusGrad.addColorStop(0, '#4a6a88');
+    oculusGrad.addColorStop(0.7, '#2a4060');
+    oculusGrad.addColorStop(1, '#1a2a40');
+  } else if (oculusMode === 'noon') {
+    oculusGrad.addColorStop(0, '#e8f0ff');
+    oculusGrad.addColorStop(0.5, '#c8d8f0');
+    oculusGrad.addColorStop(1, '#a0b8d8');
+  } else {
+    oculusGrad.addColorStop(0, '#7bb5d4');
+    oculusGrad.addColorStop(0.6, '#4a90b8');
+    oculusGrad.addColorStop(1, '#2a6080');
+  }
+  octx.save();
+  octx.beginPath();
+  octx.arc(cx, cy - 44, 44, 0, Math.PI * 2);
+  octx.fillStyle = oculusGrad;
+  octx.fill();
+  octx.strokeStyle = '#c9a84c';
+  octx.lineWidth = 3;
+  octx.stroke();
+  octx.restore();
+
+  // Bronze ring
+  octx.save();
+  octx.beginPath();
+  octx.arc(cx, cy - 44, 48, 0, Math.PI * 2);
+  octx.strokeStyle = '#c9943a';
+  octx.lineWidth = 5;
+  octx.stroke();
+  octx.restore();
+
+  oculusAngle += 0.005;
+  requestAnimationFrame(drawOculus);
+}
+drawOculus();
+
+// ─── SPHERE CANVAS ───
+const sc = document.getElementById('sphereCanvas');
+const sctx = sc.getContext('2d');
+let sphereT = 0;
+
+function drawSphere() {
+  const W = 500, H = 420;
+  sctx.clearRect(0, 0, W, H);
+
+  const bg = sctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#0d0a05');
+  bg.addColorStop(1, '#1a1208');
+  sctx.fillStyle = bg;
+  sctx.fillRect(0, 0, W, H);
+
+  const cx = W / 2, cy = H - 40;
+  const R = 160;
+
+  // Ground line
+  sctx.save();
+  sctx.strokeStyle = 'rgba(201,168,76,0.3)';
+  sctx.lineWidth = 1;
+  sctx.setLineDash([4, 8]);
+  sctx.beginPath();
+  sctx.moveTo(40, cy);
+  sctx.lineTo(W - 40, cy);
+  sctx.stroke();
+  sctx.setLineDash([]);
+  sctx.restore();
+
+  // Perfect sphere (pulsing softly)
+  const pulse = 1 + Math.sin(sphereT) * 0.008;
+  sctx.save();
+  sctx.beginPath();
+  sctx.arc(cx, cy - R * pulse, R * pulse, 0, Math.PI * 2);
+  const sphGrad = sctx.createRadialGradient(cx - R * 0.3, cy - R * 1.4, 0, cx, cy - R, R);
+  sphGrad.addColorStop(0, 'rgba(201,168,76,0.12)');
+  sphGrad.addColorStop(0.5, 'rgba(201,168,76,0.05)');
+  sphGrad.addColorStop(1, 'rgba(201,168,76,0.02)');
+  sctx.fillStyle = sphGrad;
+  sctx.strokeStyle = 'rgba(201,168,76,0.5)';
+  sctx.lineWidth = 1.5;
+  sctx.fill();
+  sctx.stroke();
+  sctx.restore();
+
+  // Dome silhouette
+  sctx.save();
+  sctx.beginPath();
+  sctx.arc(cx, cy, R, Math.PI, 0);
+  sctx.lineTo(cx + R, cy);
+  sctx.lineTo(cx - R, cy);
+  const domeGrad = sctx.createLinearGradient(cx, cy - R, cx, cy);
+  domeGrad.addColorStop(0, '#6a5030');
+  domeGrad.addColorStop(1, '#3d2e18');
+  sctx.fillStyle = domeGrad;
+  sctx.fill();
+  sctx.strokeStyle = '#c9a84c88';
+  sctx.lineWidth = 1.5;
+  sctx.stroke();
+  sctx.restore();
+
+  // Dimension lines
+  sctx.save();
+  sctx.strokeStyle = '#c9a84c66';
+  sctx.lineWidth = 1;
+  sctx.setLineDash([3, 5]);
+
+  // Diameter
+  sctx.beginPath();
+  sctx.moveTo(cx - R - 20, cy + 25);
+  sctx.lineTo(cx + R + 20, cy + 25);
+  sctx.stroke();
+  // Height
+  sctx.beginPath();
+  sctx.moveTo(cx + R + 30, cy);
+  sctx.lineTo(cx + R + 30, cy - R * 2);
+  sctx.stroke();
+  sctx.setLineDash([]);
+  sctx.restore();
+
+  sctx.save();
+  sctx.font = '13px "Cinzel", serif';
+  sctx.fillStyle = '#c9a84c';
+  sctx.fillText('直徑 43.3m', cx - 38, cy + 42);
+  sctx.fillText('高 43.3m', cx + R + 35, cy - R + 10);
+  sctx.restore();
+
+  // Equal sign
+  const eqPulse = (Math.sin(sphereT * 2) + 1) / 2;
+  sctx.save();
+  sctx.font = 'bold 14px "Cinzel Decorative", serif';
+  sctx.fillStyle = `rgba(232,201,122,${0.5 + eqPulse * 0.5})`;
+  sctx.fillText('D = H ＝ 完美球體', cx - 70, cy - R * 2 - 15);
+  sctx.restore();
+
+  sphereT += 0.02;
+  requestAnimationFrame(drawSphere);
+}
+drawSphere();
+
+// ─── SELF-HEALING CANVAS ───
+const hc = document.getElementById('healCanvas');
+const hctx = hc.getContext('2d');
+let healT = 0;
+const particles = Array.from({ length: 60 }, () => ({
+  x: Math.random() * 640,
+  y: Math.random() * 300,
+  r: 3 + Math.random() * 5,
+  type: Math.random() < 0.4 ? 'pozzolana' : Math.random() < 0.6 ? 'lime' : 'water',
+  vx: (Math.random() - 0.5) * 0.3,
+  vy: (Math.random() - 0.5) * 0.3,
+}));
+const crystals = [];
+
+function drawHeal() {
+  const W = 640, H = 300;
+  hctx.clearRect(0, 0, W, H);
+  const bg = hctx.createLinearGradient(0, 0, W, 0);
+  bg.addColorStop(0, '#1a1208');
+  bg.addColorStop(1, '#0d0f12');
+  hctx.fillStyle = bg;
+  hctx.fillRect(0, 0, W, H);
+
+  // Crack
+  hctx.save();
+  hctx.strokeStyle = 'rgba(255,255,255,0.12)';
+  hctx.lineWidth = Math.max(0.5, 3 - healT * 0.04);
+  hctx.beginPath();
+  hctx.moveTo(280, 20);
+  hctx.lineTo(290, 80);
+  hctx.lineTo(275, 140);
+  hctx.lineTo(285, 200);
+  hctx.lineTo(270, 280);
+  hctx.stroke();
+  hctx.restore();
+
+  // Particles
+  const colors = {
+    pozzolana: '#c9a84c',
+    lime: '#e8e8d0',
+    water: '#7bb5d4',
+  };
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0) p.x = W;
+    if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H;
+    if (p.y > H) p.y = 0;
+
+    // Drift toward crack if water
+    if (p.type === 'water') {
+      p.vx += (283 - p.x) * 0.0002;
+      p.vy += (150 - p.y) * 0.0002;
+    }
+
+    hctx.save();
+    hctx.beginPath();
+    hctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    hctx.fillStyle = colors[p.type];
+    hctx.globalAlpha = 0.7;
+    hctx.fill();
+    hctx.restore();
+  });
+
+  // Crystal growth along crack
+  if (healT > 30) {
+    const growthCount = Math.min(Math.floor((healT - 30) / 4), 18);
+    for (let i = 0; i < growthCount; i++) {
+      const t = i / 18;
+      const cx = 280 + Math.sin(t * 8) * 8;
+      const cy = 20 + t * 260;
+      const size = 4 + Math.sin(healT * 0.1 + i) * 2;
+
+      hctx.save();
+      hctx.beginPath();
+      hctx.moveTo(cx, cy - size);
+      hctx.lineTo(cx + size * 0.6, cy + size * 0.5);
+      hctx.lineTo(cx - size * 0.6, cy + size * 0.5);
+      hctx.closePath();
+      hctx.fillStyle = `rgba(168,212,168,${0.6 + Math.sin(healT * 0.08 + i) * 0.3})`;
+      hctx.fill();
+      hctx.restore();
+    }
+  }
+
+  // Label
+  hctx.save();
+  hctx.font = '11px "Cinzel", serif';
+  hctx.fillStyle = '#c9a84c';
+  if (healT < 30) {
+    hctx.fillText('裂縫出現，水分滲入...', 320, 30);
+  } else if (healT < 80) {
+    hctx.fillText('火山灰 + 石灰 + 水 → 反應中...', 310, 30);
+  } else {
+    hctx.fillText('托貝莫萊石晶體生成，裂縫自癒完成 ✓', 280, 30);
+    if (healT > 100) healT = 0;
+  }
+  hctx.restore();
+
+  healT += 0.5;
+  requestAnimationFrame(drawHeal);
+}
+drawHeal();
+</script>
+</body>
+</html>
